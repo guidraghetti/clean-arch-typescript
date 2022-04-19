@@ -6,7 +6,7 @@ This API is a first test with Clean Arch + Typescript
     - Nodejs
     - Typescript
     - Express
-    - Typeorm
+    - MongoDB
 
 ## Run development enviroment
 
