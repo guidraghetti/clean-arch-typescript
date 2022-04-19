@@ -1,8 +1,6 @@
-import { EmailValidator } from '../../../src/presentetion/controller/protocols/email-validator'
+import { EmailValidator } from '../../../src/presentetion/controller/protocols'
 import { SignUpController } from '../../../src/presentetion/controller/signup'
-import { InvalidParamError } from '../../../src/presentetion/errors/invalid-param-error'
-import { MissingParamError } from '../../../src/presentetion/errors/missing-param-error'
-import { ServerError } from '../../../src/presentetion/errors/server-error'
+import { MissingParamError, InvalidParamError, ServerError } from '../../../src/presentetion/errors'
 
 interface SutTypes {
   sut: SignUpController
