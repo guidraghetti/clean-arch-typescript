@@ -1,3 +1,5 @@
+import { AccountModel } from '../../../src/domain/models/account'
+import { AddAccount, AddAccountModel } from '../../../src/domain/usecases/add-account'
 import { EmailValidator } from '../../../src/presentetion/controller/protocols'
 import { SignUpController } from '../../../src/presentetion/controller/signup'
 import { MissingParamError, InvalidParamError, ServerError } from '../../../src/presentetion/errors'
@@ -5,6 +7,7 @@ import { MissingParamError, InvalidParamError, ServerError } from '../../../src/
 interface SutTypes {
   sut: SignUpController
   emailValidatorStub: EmailValidator
+  addAccountStub: AddAccount
 }
 
 const makeEmailValidator = (): EmailValidator => {
@@ -16,13 +19,31 @@ const makeEmailValidator = (): EmailValidator => {
   return new EmailValidatorStub()
 }
 
+const makeAddAccount = (): AddAccount => {
+  class AddAccountStub implements AddAccount {
+    add (account: AddAccountModel): AccountModel {
+      const fakeAccount = {
+        id: 'valid_id',
+        name: 'valid_name',
+        email: 'valid_email@mail.com',
+        password: 'valid_password'
+      }
+
+      return fakeAccount
+    }
+  }
+  return new AddAccountStub()
+}
+
 const makeSut = (): SutTypes => {
+  const addAccountStub = makeAddAccount()
   const emailValidatorStub = makeEmailValidator()
-  const sut = new SignUpController(emailValidatorStub)
+  const sut = new SignUpController(emailValidatorStub, addAccountStub)
 
   return {
     sut,
-    emailValidatorStub
+    emailValidatorStub,
+    addAccountStub
   }
 }
 
@@ -46,7 +67,7 @@ describe('Signup Controller', () => {
     const { sut } = makeSut()
     const httpRequest = {
       body: {
-        name: 'moockName',
+        name: 'mockName',
         password: 'mockPassword',
         passwordConfirmation: 'mockPassword'
       }
@@ -61,7 +82,7 @@ describe('Signup Controller', () => {
     const { sut } = makeSut()
     const httpRequest = {
       body: {
-        name: 'moockName',
+        name: 'mockName',
         email: 'mockEmail@email.com',
         passwordConfirmation: 'mockPassword'
       }
@@ -76,7 +97,7 @@ describe('Signup Controller', () => {
     const { sut } = makeSut()
     const httpRequest = {
       body: {
-        name: 'moockName',
+        name: 'mockName',
         email: 'mockEmail@email.com',
         password: 'mockPassword'
       }
@@ -91,7 +112,7 @@ describe('Signup Controller', () => {
     const { sut, emailValidatorStub } = makeSut()
     const httpRequest = {
       body: {
-        name: 'moockName',
+        name: 'mockName',
         email: 'mockWrongEmail',
         password: 'mockPassword',
         passwordConfirmation: 'mockPassword'
@@ -110,7 +131,7 @@ describe('Signup Controller', () => {
     const { sut, emailValidatorStub } = makeSut()
     const httpRequest = {
       body: {
-        name: 'moockName',
+        name: 'mockName',
         email: 'mockEmail@email.com',
         password: 'mockPassword',
         passwordConfirmation: 'mockPassword'
@@ -127,7 +148,7 @@ describe('Signup Controller', () => {
 
     const httpRequest = {
       body: {
-        name: 'moockName',
+        name: 'mockName',
         email: 'mockWrongEmail',
         password: 'mockPassword',
         passwordConfirmation: 'mockPassword'
@@ -148,10 +169,10 @@ describe('Signup Controller', () => {
     const { sut } = makeSut()
     const httpRequest = {
       body: {
-        name: 'moockName',
+        name: 'mockName',
         email: 'mockEmail@email.com',
         password: 'mockPassword',
-        passwordConfirmation: 'mockPasswordConfirmation'
+        passwordConfirmation: 'mockWrongPasswordConfirmation'
       }
     }
 
@@ -159,5 +180,27 @@ describe('Signup Controller', () => {
 
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new InvalidParamError('passwordConfirmation is different from password'))
+  })
+
+  test('sould success in addAccount', async () => {
+    const { sut, addAccountStub } = makeSut()
+    const httpRequest = {
+      body: {
+        name: 'mockName',
+        email: 'mockEmail@email.com',
+        password: 'mockPassword',
+        passwordConfirmation: 'mockPassword'
+      }
+    }
+
+    const addAccountSpy = jest.spyOn(addAccountStub, 'add')
+
+    sut.handle(httpRequest)
+
+    expect(addAccountSpy).toHaveBeenCalledWith({
+      name: 'mockName',
+      email: 'mockEmail@email.com',
+      password: 'mockPassword'
+    })
   })
 })
