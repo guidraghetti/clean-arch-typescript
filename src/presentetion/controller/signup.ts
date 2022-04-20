@@ -9,7 +9,7 @@ export class SignUpController implements Controller {
     this.emailValidator = emailValidator
   }
 
-  handler (httpRequest: HttpRequest): HttpResponse {
+  handle (httpRequest: HttpRequest): HttpResponse {
     try {
       const { email, password, passwordConfirmation } = httpRequest.body
 
