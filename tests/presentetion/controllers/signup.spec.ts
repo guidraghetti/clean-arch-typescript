@@ -33,7 +33,7 @@ describe('Signup Controller', () => {
       body: {
         email: 'mockEmail@email.com',
         password: 'mockPassword',
-        passwordConfirmation: 'mockPasswordConfirmation'
+        passwordConfirmation: 'mockPassword'
       }
     }
     const httpResponse = sut.handler(httpRequest)
@@ -48,7 +48,7 @@ describe('Signup Controller', () => {
       body: {
         name: 'moockName',
         password: 'mockPassword',
-        passwordConfirmation: 'mockPasswordConfirmation'
+        passwordConfirmation: 'mockPassword'
       }
     }
     const httpResponse = sut.handler(httpRequest)
@@ -63,7 +63,7 @@ describe('Signup Controller', () => {
       body: {
         name: 'moockName',
         email: 'mockEmail@email.com',
-        passwordConfirmation: 'mockPasswordConfirmation'
+        passwordConfirmation: 'mockPassword'
       }
     }
     const httpResponse = sut.handler(httpRequest)
@@ -94,7 +94,7 @@ describe('Signup Controller', () => {
         name: 'moockName',
         email: 'mockWrongEmail',
         password: 'mockPassword',
-        passwordConfirmation: 'mockPasswordConfirmation'
+        passwordConfirmation: 'mockPassword'
       }
     }
 
@@ -113,7 +113,7 @@ describe('Signup Controller', () => {
         name: 'moockName',
         email: 'mockEmail@email.com',
         password: 'mockPassword',
-        passwordConfirmation: 'mockPasswordConfirmation'
+        passwordConfirmation: 'mockPassword'
       }
     }
     const isValidSpy = jest.spyOn(emailValidatorStub, 'isValid')
@@ -130,7 +130,7 @@ describe('Signup Controller', () => {
         name: 'moockName',
         email: 'mockWrongEmail',
         password: 'mockPassword',
-        passwordConfirmation: 'mockPasswordConfirmation'
+        passwordConfirmation: 'mockPassword'
       }
     }
 
@@ -142,5 +142,22 @@ describe('Signup Controller', () => {
 
     expect(httpResponse.statusCode).toBe(500)
     expect(httpResponse.body).toEqual(new ServerError())
+  })
+
+  test('sould return 400 if password confirmation fails', async () => {
+    const { sut } = makeSut()
+    const httpRequest = {
+      body: {
+        name: 'moockName',
+        email: 'mockEmail@email.com',
+        password: 'mockPassword',
+        passwordConfirmation: 'mockPasswordConfirmation'
+      }
+    }
+
+    const httpResponse = sut.handler(httpRequest)
+
+    expect(httpResponse.statusCode).toBe(400)
+    expect(httpResponse.body).toEqual(new InvalidParamError('passwordConfirmation is different from password'))
   })
 })
