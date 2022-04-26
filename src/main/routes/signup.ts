@@ -1,7 +1,7 @@
 import { Router } from 'express'
 
 export default (router: Router): void => {
-  router.post('/signup', (req, res) => {
-    res.send('signup')
+  router.post('/signup', (_req, res) => {
+    res.send('')
   })
 }

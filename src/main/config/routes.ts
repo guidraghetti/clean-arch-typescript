@@ -1,9 +1,12 @@
 
-import { Express, Router } from 'express'
-import fastGlob from 'fast-glob'
+import { Router, Express } from 'express'
+import { readdirSync } from 'fs'
+import { join } from 'path'
 export const setupRoutes = (app: Express): void => {
   const router = Router()
-  fastGlob.sync('src/main/routes/**/*.ts').forEach(async routeFile =>
-    (await import(`../../../${routeFile}`)).default(router)
+  app.use('/', router)
+
+  readdirSync(join(__dirname, '../routes')).forEach(async routeFile =>
+    (await import(`../routes/${routeFile}`)).default(router)
   )
 }
