@@ -1,5 +1,11 @@
+import { MongoHelper } from '../infra/db/mongodb/helpers/mongo-helper'
 import app from './config/app'
+import { MONGO_URL, PORT } from './config/constants'
 
-const port = process.env.PORT || 3000
-
-app.listen(port, () => console.log(`Server is running on http://localhost:${port}`))
+MongoHelper
+  .connect(MONGO_URL)
+  .then(() => app.listen(
+    PORT, () => console.log(`Server is running on http://localhost:${PORT}`
+    ))
+  )
+  .catch(console.error)
