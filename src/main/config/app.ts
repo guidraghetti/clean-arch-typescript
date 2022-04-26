@@ -1,7 +1,7 @@
 import express from 'express'
-import { middlewares } from './middleware'
+import { setupMiddlewares } from './middleware'
 
 const app = express()
-middlewares(app)
+setupMiddlewares(app)
 
 export default app
