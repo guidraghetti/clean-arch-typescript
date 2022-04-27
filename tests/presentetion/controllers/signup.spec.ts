@@ -34,8 +34,7 @@ const makeFakeAccount = (): AccountModel => ({
   name: 'valid_name',
   email: 'valid_email@mail.com',
   password: 'valid_password'
-}
-)
+})
 
 const makeAddAccount = (): AddAccount => {
   class AddAccountStub implements AddAccount {
