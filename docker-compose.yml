@@ -8,3 +8,24 @@ services:
       - ./data:/data/db
     ports:
       - "27017:27017"
+    networks:
+      - app-net
+  
+  mongo-express:
+    depends_on:
+      - mongo
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_EXPRESS_USERNAME}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_EXPRESS_PASSWORD}
+    links: 
+      - mongo
+    networks:
+      - app-net
+
+networks:
+  app-net:
+    driver: bridge
