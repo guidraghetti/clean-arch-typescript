@@ -14,6 +14,8 @@ Make sure you have [Node.js](https://nodejs.org/en/), [Nestjs Cli](https://docs.
 
 - Create .env same .env.example content
 
+- run `yarn i` or `npm i`
+
 - run `docker-compose up -d` to start app
   
 - run `yarn test` or `npm run test` to run unitary tests
