@@ -18,7 +18,7 @@ Make sure you have [Node.js](https://nodejs.org/en/), [Nestjs Cli](https://docs.
 
 - run `docker-compose up -d` to start app
   
-- run `yarn test` or `npm run test` to run unitary tests
+- run `yarn test` or `npm run test` to run all tests
 
 ## Deploy
 
