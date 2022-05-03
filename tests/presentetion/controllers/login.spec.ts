@@ -2,7 +2,7 @@ import { LoginController } from '../../../src/presentetion/controller/login/logi
 import { HttpRequest } from '../../../src/presentetion/controller/protocols'
 import { EmailValidator } from '../../../src/presentetion/controller/protocols/email-validator'
 import { InvalidParamError, MissingParamError } from '../../../src/presentetion/errors'
-import { badRequest } from '../../../src/presentetion/helpers/http-helper'
+import { badRequest, serverError } from '../../../src/presentetion/helpers/http-helper'
 
 const makeEmailValidator = (): EmailValidator => {
   class EmailValidatorStub implements EmailValidator {
@@ -80,5 +80,18 @@ describe('Login Controller', () => {
     const httpResponse = await sut.handle(httpRequest)
 
     expect(httpResponse).toEqual(badRequest(new InvalidParamError('email')))
+  })
+
+  test('Should return 500 if email validator throws', async () => {
+    const { sut, emailValidatorStub } = makeSut()
+    const httpRequest = makeFakeRequest()
+
+    jest.spyOn(emailValidatorStub, 'isValid').mockImplementationOnce(() => {
+      throw new Error()
+    })
+
+    const httpResponse = await sut.handle(httpRequest)
+
+    expect(httpResponse).toEqual(serverError(new Error('email')))
   })
 })
