@@ -3,7 +3,7 @@ import { LoginController } from '../../../src/presentetion/controller/login/logi
 import { HttpRequest } from '../../../src/presentetion/controller/protocols'
 import { EmailValidator } from '../../../src/presentetion/controller/protocols/email-validator'
 import { InvalidParamError, MissingParamError } from '../../../src/presentetion/errors'
-import { badRequest, serverError } from '../../../src/presentetion/helpers/http-helper'
+import { badRequest, serverError, unauthorized } from '../../../src/presentetion/helpers/http-helper'
 
 const makeEmailValidator = (): EmailValidator => {
   class EmailValidatorStub implements EmailValidator {
@@ -112,5 +112,15 @@ describe('Login Controller', () => {
     await sut.handle(makeFakeRequest())
 
     expect(authSpy).toHaveBeenCalledWith('any_email@mail.com', 'any_password')
+  })
+
+  test('Should return 401 if invalid credentials are provided', async () => {
+    const { sut, authenticationStub } = makeSut()
+
+    jest.spyOn(authenticationStub, 'auth').mockReturnValueOnce(null)
+
+    const httpResponse = await sut.handle(makeFakeRequest())
+
+    expect(httpResponse).toEqual(unauthorized())
   })
 })
