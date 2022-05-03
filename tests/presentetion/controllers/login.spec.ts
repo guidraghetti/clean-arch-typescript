@@ -1,8 +1,6 @@
-import { Authentication } from '../../../src/domain/usecases/authentication'
 import { LoginController } from '../../../src/presentetion/controller/login/login'
-import { HttpRequest } from '../../../src/presentetion/controller/protocols'
-import { EmailValidator } from '../../../src/presentetion/controller/protocols/email-validator'
-import { InvalidParamError, MissingParamError } from '../../../src/presentetion/errors'
+import { Authentication, EmailValidator, HttpRequest } from '../../../src/presentetion/controller/login/login-protocols'
+import { MissingParamError, InvalidParamError } from '../../../src/presentetion/errors'
 import { badRequest, serverError, unauthorized } from '../../../src/presentetion/helpers/http-helper'
 
 const makeEmailValidator = (): EmailValidator => {
