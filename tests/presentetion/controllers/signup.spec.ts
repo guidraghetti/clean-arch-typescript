@@ -4,12 +4,7 @@ import { EmailValidator, HttpRequest } from '../../../src/presentetion/controlle
 import { SignUpController } from '../../../src/presentetion/controller/signup/signup'
 import { MissingParamError, InvalidParamError, ServerError } from '../../../src/presentetion/errors'
 import { badRequest, serverError, success } from '../../../src/presentetion/helpers/http-helper'
-
-interface SutTypes {
-  sut: SignUpController
-  emailValidatorStub: EmailValidator
-  addAccountStub: AddAccount
-}
+import { Validation } from '../../../src/presentetion/helpers/validators/validation'
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {
@@ -47,15 +42,33 @@ const makeAddAccount = (): AddAccount => {
   return new AddAccountStub()
 }
 
+const makeValidation = (): Validation => {
+  class ValidationStub implements Validation {
+    validate (input: any): Error {
+      return null
+    }
+  }
+
+  return new ValidationStub()
+}
+interface SutTypes {
+  sut: SignUpController
+  emailValidatorStub: EmailValidator
+  addAccountStub: AddAccount
+  validationStub: Validation
+}
+
 const makeSut = (): SutTypes => {
   const addAccountStub = makeAddAccount()
   const emailValidatorStub = makeEmailValidator()
-  const sut = new SignUpController(emailValidatorStub, addAccountStub)
+  const validationStub = makeValidation()
+  const sut = new SignUpController(emailValidatorStub, addAccountStub, validationStub)
 
   return {
     sut,
     emailValidatorStub,
-    addAccountStub
+    addAccountStub,
+    validationStub
   }
 }
 
@@ -208,5 +221,15 @@ describe('Signup Controller', () => {
     const httpResponse = await sut.handle(httpRequest)
 
     expect(httpResponse).toEqual(success(makeFakeAccount()))
+  })
+
+  test('sould call Validation with correct value', async () => {
+    const { sut, validationStub } = makeSut()
+    const httpRequest = makeFakeRequest()
+    const validateSpy = jest.spyOn(validationStub, 'validate')
+
+    await sut.handle(httpRequest)
+
+    expect(validateSpy).toBeCalledWith(httpRequest.body)
   })
 })
