@@ -23,11 +23,7 @@ export class SignUpController implements Controller {
         return badRequest(validationError)
       }
 
-      const { email, name, password, passwordConfirmation } = httpRequest.body
-
-      if (password !== passwordConfirmation) {
-        return badRequest(new InvalidParamError('passwordConfirmation is different from password'))
-      }
+      const { email, name, password } = httpRequest.body
 
       const emailIsValid = this.emailValidator.isValid(email)
 
