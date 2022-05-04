@@ -1,5 +1,5 @@
 import { AddAccount } from '../../../domain/usecases/add-account'
-import { MissingParamError, InvalidParamError } from '../../errors'
+import { InvalidParamError } from '../../errors'
 import { badRequest, serverError, success } from '../../helpers/http-helper'
 import { Validation } from '../../helpers/validators/validation'
 import { EmailValidator, Controller, HttpRequest, HttpResponse } from './signup-protocols'
@@ -24,12 +24,6 @@ export class SignUpController implements Controller {
       }
 
       const { email, name, password, passwordConfirmation } = httpRequest.body
-      const requiredFields = ['name', 'email', 'password', 'passwordConfirmation']
-      for (const requiredField of requiredFields) {
-        if (!httpRequest.body[requiredField]) {
-          return badRequest(new MissingParamError(requiredField))
-        }
-      }
 
       if (password !== passwordConfirmation) {
         return badRequest(new InvalidParamError('passwordConfirmation is different from password'))
