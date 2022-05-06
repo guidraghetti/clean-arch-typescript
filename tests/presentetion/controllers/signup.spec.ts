@@ -3,7 +3,7 @@ import { AddAccount, AddAccountModel } from '../../../src/domain/usecases/add-ac
 import { HttpRequest } from '../../../src/presentetion/controller/signup/signup-protocols'
 import { SignUpController } from '../../../src/presentetion/controller/signup/signup'
 import { MissingParamError, ServerError } from '../../../src/presentetion/errors'
-import { badRequest, serverError, success } from '../../../src/presentetion/helpers/http-helper'
+import { badRequest, serverError, success } from '../../../src/presentetion/helpers/http/http-helper'
 import { Validation } from '../../../src/presentetion/helpers/validators/validation'
 
 const makeFakeRequest = (): HttpRequest => ({
