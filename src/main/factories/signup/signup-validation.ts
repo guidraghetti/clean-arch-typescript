@@ -1,5 +1,5 @@
 import { ValidationRequiredField } from '../../../presentetion/helpers/validators/validation-required-field'
-import { Validation } from '../../../presentetion/helpers/validators/validation'
+import { Validation } from '../../../presentetion/controller/protocols/validation'
 import { ValidationComposite } from '../../../presentetion/helpers/validators/validation-composite'
 import { ValidationCompareField } from '../../../presentetion/helpers/validators/validation-compare-fields'
 import { EmailValidatorAdapter } from '../../../utils/email-validator-adapter'

@@ -1,7 +1,7 @@
 import { makeSignupValidation } from '../../../src/main/factories/signup/signup-validation'
 import { ValidationRequiredField } from '../../../src/presentetion/helpers/validators/validation-required-field'
 import { ValidationComposite } from '../../../src/presentetion/helpers/validators/validation-composite'
-import { Validation } from '../../../src/presentetion/helpers/validators/validation'
+import { Validation } from '../../../src/presentetion/controller/protocols/validation'
 import { ValidationCompareField } from '../../../src/presentetion/helpers/validators/validation-compare-fields'
 import { ValidationEmail } from '../../../src/presentetion/helpers/validators/validation-email'
 import { EmailValidator } from '../../../src/presentetion/controller/protocols/email-validator'

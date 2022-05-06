@@ -4,7 +4,7 @@ import { HttpRequest } from '../../../src/presentetion/controller/signup/signup-
 import { SignUpController } from '../../../src/presentetion/controller/signup/signup'
 import { MissingParamError, ServerError } from '../../../src/presentetion/errors'
 import { badRequest, serverError, success } from '../../../src/presentetion/helpers/http/http-helper'
-import { Validation } from '../../../src/presentetion/helpers/validators/validation'
+import { Validation } from '../../../src/presentetion/controller/protocols/validation'
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {
