@@ -68,7 +68,7 @@ describe('DB Authentication Usecase', () => {
   test('Should throw if LoadAccountByEmailRepository throws', async () => {
     const { sut, loadAccountByEmailRepositoryStub } = makeSut()
 
-    jest.spyOn(loadAccountByEmailRepositoryStub, 'load').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
+    jest.spyOn(loadAccountByEmailRepositoryStub, 'load').mockReturnValueOnce(Promise.reject(new Error()))
 
     const authPromise = sut.auth(makeFakeAuthenticantion())
 
@@ -97,10 +97,20 @@ describe('DB Authentication Usecase', () => {
   test('Should throw if HashCompare throws', async () => {
     const { sut, hashCompareStub } = makeSut()
 
-    jest.spyOn(hashCompareStub, 'compare').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
+    jest.spyOn(hashCompareStub, 'compare').mockReturnValueOnce(Promise.reject(new Error()))
 
     const promise = sut.auth(makeFakeAuthenticantion())
 
     await expect(promise).rejects.toThrow()
+  })
+
+  test('Should return null if HashCompare return false', async () => {
+    const { sut, hashCompareStub } = makeSut()
+
+    jest.spyOn(hashCompareStub, 'compare').mockReturnValueOnce(Promise.resolve(false))
+
+    const acessToken = await sut.auth(makeFakeAuthenticantion())
+
+    expect(acessToken).toBeNull()
   })
 })
