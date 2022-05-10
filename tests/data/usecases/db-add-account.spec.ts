@@ -1,5 +1,5 @@
-import { DbAddAccount } from '../../src/data/usecases/add-account/db-add-account'
-import { AccountModel, Encrypter, AddAccountRepository, AddAccountModel } from '../../src/data/usecases/add-account/db-add-account-protocols'
+import { DbAddAccount } from '../../../src/data/usecases/add-account/db-add-account'
+import { AccountModel, Encrypter, AddAccountRepository, AddAccountModel } from '../../../src/data/usecases/add-account/db-add-account-protocols'
 
 const makeAccountData = (): AddAccountModel => ({
   name: 'valid_name',
