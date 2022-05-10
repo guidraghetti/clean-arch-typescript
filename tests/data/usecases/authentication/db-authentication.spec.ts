@@ -145,4 +145,12 @@ describe('DB Authentication Usecase', () => {
 
     await expect(promise).rejects.toThrow()
   })
+
+  test('Should call auth with correct values', async () => {
+    const { sut } = makeSut()
+
+    const accesToken = await sut.auth(makeFakeAuthenticantion())
+
+    expect(accesToken).toBe('any_token')
+  })
 })
