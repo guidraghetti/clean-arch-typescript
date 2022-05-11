@@ -2,10 +2,10 @@ import { Hasher } from '../../protocols/criptography/hasher'
 import { AccountModel, AddAccount, AddAccountModel, AddAccountRepository } from './db-add-account-protocols'
 
 export class DbAddAccount implements AddAccount {
-  private readonly encrypter: Hasher
-  private readonly addAccountRepository: AddAccountRepository
-
-  constructor (encrypter: Hasher, addAccountRepository: AddAccountRepository) {
+  constructor (
+    private readonly encrypter: Hasher,
+    private readonly addAccountRepository: AddAccountRepository
+  ) {
     this.encrypter = encrypter
     this.addAccountRepository = addAccountRepository
   }
