@@ -69,7 +69,7 @@ describe('DbAddAccount usecase', () => {
     const { hasherStub, sut } = makeSut()
     const accountData = makeAccountData()
 
-    jest.spyOn(hasherStub, 'hash').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
+    jest.spyOn(hasherStub, 'hash').mockReturnValueOnce(Promise.reject(new Error()))
 
     const accountPromise = sut.add(accountData)
 
@@ -95,7 +95,7 @@ describe('DbAddAccount usecase', () => {
     const { addAccountRepositoryStub, sut } = makeSut()
     const accountData = makeAccountData()
 
-    jest.spyOn(addAccountRepositoryStub, 'add').mockReturnValueOnce(new Promise((_resolve, reject) => reject(new Error())))
+    jest.spyOn(addAccountRepositoryStub, 'add').mockReturnValueOnce(Promise.reject(new Error()))
 
     const accountPromise = sut.add(accountData)
 
