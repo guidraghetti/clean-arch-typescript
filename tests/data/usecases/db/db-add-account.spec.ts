@@ -1,23 +1,27 @@
-import { DbAddAccount } from '../../../src/data/usecases/add-account/db-add-account'
-import { AccountModel, Hasher, AddAccountRepository, AddAccountModel } from '../../../src/data/usecases/add-account/db-add-account-protocols'
+import { LoadAccountByEmailRepository } from '../../../../src/data/protocols/db/account/load-account-by-email-repository'
+import { DbAddAccount } from '../../../../src/data/usecases/add-account/db-add-account'
+import { AccountModel, Hasher, AddAccountRepository, AddAccountModel } from '../../../../src/data/usecases/add-account/db-add-account-protocols'
 
 const makeAccountData = (): AddAccountModel => ({
-  name: 'valid_name',
-  email: 'valid_email@mail.com',
-  password: 'valid_password'
+  name: 'any_name',
+  email: 'any_email@mail.com',
+  password: 'any_password'
 })
 
 const makeFakeAccount = (): AccountModel => ({
   id: 'valid_id',
   name: 'valid_name',
   email: 'valid_email@mail.com',
-  password: 'valid_password'
+  password: 'any_password'
 })
 
-interface SutTypes {
-  sut: DbAddAccount
-  hasherStub: Hasher
-  addAccountRepositoryStub: AddAccountRepository
+const makeLoadAccountByEmailRepositoryStub = (): LoadAccountByEmailRepository => {
+  class LoadAccountByEmailRepositoryStub implements LoadAccountByEmailRepository {
+    async loadByEmail (email: string): Promise<AccountModel> {
+      return null
+    }
+  }
+  return new LoadAccountByEmailRepositoryStub()
 }
 
 const makeEncypter = (): Hasher => {
@@ -42,15 +46,24 @@ const makeAddAccountRepository = (): AddAccountRepository => {
   return new AddAccountRepositoryStub()
 }
 
+interface SutTypes {
+  sut: DbAddAccount
+  hasherStub: Hasher
+  addAccountRepositoryStub: AddAccountRepository
+  loadAccountByEmailRepositoryStub: LoadAccountByEmailRepository
+}
+
 const makeSut = (): SutTypes => {
   const hasherStub = makeEncypter()
   const addAccountRepositoryStub = makeAddAccountRepository()
-  const sut = new DbAddAccount(hasherStub, addAccountRepositoryStub)
+  const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepositoryStub()
+  const sut = new DbAddAccount(hasherStub, addAccountRepositoryStub, loadAccountByEmailRepositoryStub)
 
   return {
     sut,
     hasherStub,
-    addAccountRepositoryStub
+    addAccountRepositoryStub,
+    loadAccountByEmailRepositoryStub
   }
 }
 
@@ -62,7 +75,7 @@ describe('DbAddAccount usecase', () => {
     const hasherSpy = jest.spyOn(hasherStub, 'hash')
 
     await sut.add(accountData)
-    expect(hasherSpy).toHaveBeenCalledWith('valid_password')
+    expect(hasherSpy).toHaveBeenCalledWith('any_password')
   })
 
   test('should throw if Hasher throws', async () => {
@@ -85,8 +98,8 @@ describe('DbAddAccount usecase', () => {
     await sut.add(accountData)
 
     await expect(addAccountSpy).toHaveBeenCalledWith({
-      name: 'valid_name',
-      email: 'valid_email@mail.com',
+      name: 'any_name',
+      email: 'any_email@mail.com',
       password: 'hashed_password'
     })
   })
@@ -104,10 +117,27 @@ describe('DbAddAccount usecase', () => {
 
   test('should DbAddAccount return success', async () => {
     const { sut } = makeSut()
-    const accountData = makeAccountData()
-
-    const account = await sut.add(accountData)
+    const account = await sut.add(makeAccountData())
 
     expect(account).toEqual(makeFakeAccount())
+  })
+
+  test('should DbAddAccount return null if LoadAccountByEmailRepository not returns null', async () => {
+    const { sut, loadAccountByEmailRepositoryStub } = makeSut()
+
+    jest.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail').mockReturnValueOnce(Promise.resolve(makeFakeAccount()))
+    const account = await sut.add(makeAccountData())
+
+    expect(account).toBeNull()
+  })
+
+  test('Should call LoadAccountByEmailRepository with correct email', async () => {
+    const { sut, loadAccountByEmailRepositoryStub } = makeSut()
+
+    const loadSpy = jest.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail')
+
+    await sut.add(makeAccountData())
+
+    expect(loadSpy).toHaveBeenCalledWith('any_email@mail.com')
   })
 })
