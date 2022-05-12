@@ -5,10 +5,7 @@ export class ValidationCompareField implements Validation {
   constructor (
     private readonly field: string,
     private readonly fieldToCompare: string
-  ) {
-    this.field = field
-    this.fieldToCompare = fieldToCompare
-  }
+  ) {}
 
   validate (value: any): Error {
     if (value[this.field] !== value[this.fieldToCompare]) {

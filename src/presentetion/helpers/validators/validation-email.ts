@@ -6,10 +6,7 @@ export class ValidationEmail implements Validation {
   constructor (
     private readonly field: string,
     private readonly emailValidator: EmailValidator
-  ) {
-    this.field = field
-    this.emailValidator = emailValidator
-  }
+  ) {}
 
   validate (value: any): Error {
     const emailIsValid = this.emailValidator.isValid(value[this.field])
