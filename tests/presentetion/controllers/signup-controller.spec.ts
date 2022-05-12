@@ -3,9 +3,10 @@ import { AddAccount, AddAccountModel } from '../../../src/domain/usecases/add-ac
 import { HttpRequest } from '../../../src/presentetion/controller/signup/signup-controller-protocols'
 import { SignUpController } from '../../../src/presentetion/controller/signup/signup-controller'
 import { MissingParamError, ServerError } from '../../../src/presentetion/errors'
-import { badRequest, serverError, success } from '../../../src/presentetion/helpers/http/http-helper'
+import { badRequest, forbidden, serverError, success } from '../../../src/presentetion/helpers/http/http-helper'
 import { Validation } from '../../../src/presentetion/controller/protocols/validation'
 import { Authentication, AuthenticationModel } from '../../../src/domain/usecases/authentication'
+import { UniqueError } from '../../../src/presentetion/errors/unique-error'
 
 const makeAuthentication = (): any => {
   class AuthenticationStub implements Authentication {
@@ -111,6 +112,17 @@ describe('Signup Controller', () => {
     const httpResponse = await sut.handle(httpRequest)
 
     expect(httpResponse).toEqual(success({ accessToken: 'any_token' }))
+  })
+
+  test('sould return 403 if AddAccount returns null', async () => {
+    const { sut, addAccountStub } = makeSut()
+
+    jest.spyOn(addAccountStub, 'add').mockReturnValueOnce(Promise.resolve(null))
+    const httpRequest = makeFakeRequest()
+
+    const httpResponse = await sut.handle(httpRequest)
+
+    expect(httpResponse).toEqual(forbidden(new UniqueError('any_email@mail.com')))
   })
 
   test('sould call Validation with correct value', async () => {
