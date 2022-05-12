@@ -5,12 +5,12 @@ import { AccountMongoRepository } from '../../../infra/db/mongodb/account/accoun
 import { LogMongoRepository } from '../../../infra/db/mongodb/log/log-mongo-repository'
 import { Controller } from '../../../presentetion/controller/protocols'
 import { SignUpController } from '../../../presentetion/controller/signup/signup-controller'
+import { BCRYPT_SALT } from '../../config/constants'
 import { LogControllerDecorator } from '../../decorators/log-controller-decorator'
 import { makeSignupValidation } from './signup-validation-factory'
 
 export const makeSignupController = (): Controller => {
-  const salt = 12
-  const bcryptAdapter = new BcryptAdapter(salt)
+  const bcryptAdapter = new BcryptAdapter(BCRYPT_SALT)
   const accountMongoRepository = new AccountMongoRepository()
   const dbAddAccount = new DbAddAccount(bcryptAdapter, accountMongoRepository)
 

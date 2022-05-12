@@ -1,7 +1,6 @@
 import bcrypt from 'bcryptjs'
 import { BcryptAdapter } from '../../../src/infra/criptography/bcrypt-adapter/bcrypt-adapter'
-
-const bcryptSalt = 12
+import { BCRYPT_SALT } from '../../../src/main/config/constants'
 
 jest.mock('bcryptjs', () => ({
   async hash (): Promise<string> {
@@ -14,7 +13,7 @@ jest.mock('bcryptjs', () => ({
 }))
 
 const makeSut = (): BcryptAdapter => {
-  return new BcryptAdapter(bcryptSalt)
+  return new BcryptAdapter(BCRYPT_SALT)
 }
 
 describe('Bcrypt Adapter', () => {
@@ -23,7 +22,7 @@ describe('Bcrypt Adapter', () => {
     jest.spyOn(bcrypt, 'hash')
     await sut.hash('any_value')
 
-    expect(bcrypt.hash).toHaveBeenCalledWith('any_value', bcryptSalt)
+    expect(bcrypt.hash).toHaveBeenCalledWith('any_value', BCRYPT_SALT)
   })
 
   test('Should return hashed password on success', async () => {
