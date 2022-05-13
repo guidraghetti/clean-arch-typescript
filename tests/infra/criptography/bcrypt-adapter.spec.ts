@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs'
-import { BcryptAdapter } from '../../../src/infra/criptography/bcrypt-adapter/bcrypt-adapter'
+import { BcryptAdapter } from '../../../src/infra/criptography'
 import { BCRYPT_SALT } from '../../../src/main/config/constants'
 
 jest.mock('bcryptjs', () => ({

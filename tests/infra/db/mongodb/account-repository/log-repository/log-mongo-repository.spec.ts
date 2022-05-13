@@ -1,6 +1,5 @@
 import { Collection } from 'mongodb'
-import { MongoHelper } from '../../../../../../src/infra/db/mongodb/helpers/mongo-helper'
-import { LogMongoRepository } from '../../../../../../src/infra/db/mongodb/log/log-mongo-repository'
+import { LogMongoRepository, MongoHelper } from '../../../../../../src/infra/db'
 import { MONGO_URL } from '../../../../../../src/main/config/constants'
 
 const makeSut = (): LogMongoRepository => new LogMongoRepository()

@@ -1,6 +1,7 @@
-import { LoadAccountByEmailRepository } from '../../../../src/data/protocols/db/account/load-account-by-email-repository'
-import { DbAddAccount } from '../../../../src/data/usecases/add-account/db-add-account'
-import { AccountModel, Hasher, AddAccountRepository, AddAccountModel } from '../../../../src/data/usecases/add-account/db-add-account-protocols'
+import { LoadAccountByEmailRepository, Hasher, AddAccountRepository } from '../../../../src/data/protocols'
+import { DbAddAccount } from '../../../../src/data/usecases'
+import { AccountModel } from '../../../../src/domain/models/account'
+import { AddAccountModel } from '../../../../src/domain/usecases'
 
 const makeAccountData = (): AddAccountModel => ({
   name: 'any_name',

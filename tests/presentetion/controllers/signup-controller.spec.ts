@@ -1,12 +1,10 @@
 import { AccountModel } from '../../../src/domain/models/account'
-import { AddAccount, AddAccountModel } from '../../../src/domain/usecases/add-account'
-import { HttpRequest } from '../../../src/presentetion/controller/signup/signup-controller-protocols'
+import { Authentication, AuthenticationModel, AddAccount, AddAccountModel } from '../../../src/domain/usecases'
+import { HttpRequest, Validation } from '../../../src/presentetion/controller/protocols'
 import { SignUpController } from '../../../src/presentetion/controller/signup/signup-controller'
-import { MissingParamError, ServerError } from '../../../src/presentetion/errors'
-import { badRequest, forbidden, serverError, success } from '../../../src/presentetion/helpers/http/http-helper'
-import { Validation } from '../../../src/presentetion/controller/protocols/validation'
-import { Authentication, AuthenticationModel } from '../../../src/domain/usecases/authentication'
+import { ServerError, MissingParamError } from '../../../src/presentetion/errors'
 import { UniqueError } from '../../../src/presentetion/errors/unique-error'
+import { serverError, success, forbidden, badRequest } from '../../../src/presentetion/helpers/http/http-helper'
 
 const makeAuthentication = (): any => {
   class AuthenticationStub implements Authentication {
