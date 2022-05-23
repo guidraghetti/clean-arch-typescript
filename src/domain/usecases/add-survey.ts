@@ -1,5 +1,5 @@
 type SurveyAnsware = {
-  image: string
+  image?: string
   answer: string
 }
 
