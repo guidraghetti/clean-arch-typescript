@@ -1,6 +1,6 @@
 import { AccountModel } from '../../../src/domain/models/account'
 import { Authentication, AuthenticationModel, AddAccount, AddAccountModel } from '../../../src/domain/usecases'
-import { HttpRequest, Validation } from '../../../src/presentation/controller/protocols'
+import { HttpRequest, Validation } from '../../../src/presentation/protocols'
 import { SignUpController } from '../../../src/presentation/controller/login/signup/signup-controller'
 import { ServerError, MissingParamError } from '../../../src/presentation/errors'
 import { UniqueError } from '../../../src/presentation/errors/unique-error'

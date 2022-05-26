@@ -1,4 +1,4 @@
-import { HttpResponse } from '../../controller/protocols/http'
+import { HttpResponse } from '../../protocols/http'
 import { UnauthorizedError } from '../../errors'
 import { ServerError } from '../../errors/server-error'
 

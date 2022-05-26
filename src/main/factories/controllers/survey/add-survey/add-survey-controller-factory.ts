@@ -1,4 +1,4 @@
-import { Controller } from '../../../../../presentation/controller/protocols'
+import { Controller } from '../../../../../presentation/protocols'
 import { AddSurveyController } from '../../../../../presentation/controller/survey'
 import { makeLogControllerDecorator } from '../../../decorators/log-controller-decorator-factory'
 import { makeDbAddSurveyFactory } from '../../../usecases/add-survey/db-add-survey-factory'

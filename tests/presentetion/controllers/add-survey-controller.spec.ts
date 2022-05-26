@@ -1,5 +1,5 @@
 import { AddSurvey, AddSurveyModel } from '../../../src/domain/usecases/add-survey'
-import { HttpRequest, Validation } from '../../../src/presentation/controller/protocols'
+import { HttpRequest, Validation } from '../../../src/presentation/protocols'
 import { AddSurveyController } from '../../../src/presentation/controller/survey'
 import { badRequest, serverError, successNoContent } from '../../../src/presentation/helpers/http/http-helper'
 

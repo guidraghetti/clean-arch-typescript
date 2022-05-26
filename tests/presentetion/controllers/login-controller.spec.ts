@@ -1,6 +1,6 @@
 import { Authentication, AuthenticationModel } from '../../../src/domain/usecases'
 import { LoginController } from '../../../src/presentation/controller/login/login/login-controller'
-import { HttpRequest, Validation } from '../../../src/presentation/controller/protocols'
+import { HttpRequest, Validation } from '../../../src/presentation/protocols'
 import { MissingParamError } from '../../../src/presentation/errors'
 import { unauthorized, serverError, success, badRequest } from '../../../src/presentation/helpers/http/http-helper'
 

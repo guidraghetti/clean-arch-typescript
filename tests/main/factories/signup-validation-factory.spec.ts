@@ -1,5 +1,5 @@
 import { makeSignupValidation } from '../../../src/main/factories/controllers'
-import { Validation } from '../../../src/presentation/controller/protocols'
+import { Validation } from '../../../src/presentation/protocols'
 import { EmailValidator } from '../../../src/validation/protocols/email-validator'
 import { ValidationRequiredField, ValidationCompareField, ValidationEmail, ValidationComposite } from '../../../src/validation/validators'
 

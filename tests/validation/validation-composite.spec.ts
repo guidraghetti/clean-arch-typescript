@@ -1,4 +1,4 @@
-import { Validation } from '../../src/presentation/controller/protocols/validation'
+import { Validation } from '../../src/presentation/protocols/validation'
 import { MissingParamError } from '../../src/presentation/errors'
 import { ValidationComposite } from '../../src/validation/validators'
 
