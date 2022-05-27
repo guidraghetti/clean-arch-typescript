@@ -22,12 +22,12 @@ describe('AccountMongoRepository', () => {
   })
 
   afterAll(async () => {
-    await accountCollection.deleteMany({})
     await MongoHelper.disconnect()
   })
 
   beforeEach(async () => {
     accountCollection = MongoHelper.getCollection('accounts')
+    await accountCollection.deleteMany({})
   })
 
   describe('add', () => {
@@ -46,15 +46,22 @@ describe('AccountMongoRepository', () => {
 
   describe('loadByEmail', () => {
     test('should return an account on loadByEmail success', async () => {
+      await accountCollection.insertOne({
+        name: 'any_name',
+        email: 'any_email@mail.com',
+        password: 'any_password',
+        accessToken: 'any_token',
+        role: 'any_role'
+      })
       const sut = makeSut()
 
-      const addedAccount = await sut.loadByEmail('any_email@mail.com')
+      const account = await sut.loadByEmail('any_email@mail.com')
 
-      expect(addedAccount).toBeTruthy()
-      expect(addedAccount.id).toBeTruthy()
-      expect(addedAccount.name).toBe('any_name')
-      expect(addedAccount.email).toBe('any_email@mail.com')
-      expect(addedAccount.password).toBe('any_password')
+      expect(account).toBeTruthy()
+      expect(account.id).toBeTruthy()
+      expect(account.name).toBe('any_name')
+      expect(account.email).toBe('any_email@mail.com')
+      expect(account.password).toBe('any_password')
     })
 
     test('Should return null if loadByEmail fails', async () => {
@@ -68,12 +75,18 @@ describe('AccountMongoRepository', () => {
 
   describe('updateAccessToken', () => {
     test('should update account accessToken on updateAccessToken success', async () => {
+      const result = await accountCollection.insertOne({
+        name: 'any_name',
+        email: 'any_email@mail.com',
+        password: 'any_password',
+        accessToken: 'any_token',
+        role: 'any_role'
+      })
       const sut = makeSut()
-      const accountToUpdate = await accountCollection.findOne({ email: makeFakeAccount().email })
 
-      await sut.updateAccessToken(accountToUpdate._id.toString(), 'any_token')
+      await sut.updateAccessToken(result.insertedId.toString(), 'any_token')
 
-      const account = await accountCollection.findOne({ _id: accountToUpdate._id })
+      const account = await accountCollection.findOne({ _id: result.insertedId })
 
       expect(account).toBeTruthy()
       expect(account.accessToken).toBe('any_token')
@@ -82,27 +95,96 @@ describe('AccountMongoRepository', () => {
 
   describe('loadByToken', () => {
     test('should return an account on loadByToken without role success', async () => {
+      await accountCollection.insertOne({
+        name: 'any_name',
+        email: 'any_email@mail.com',
+        password: 'any_password',
+        accessToken: 'any_token',
+        role: 'any_role'
+      })
       const sut = makeSut()
 
-      const addedAccount = await sut.loadByToken('any_token')
+      const account = await sut.loadByToken('any_token')
 
-      expect(addedAccount).toBeTruthy()
-      expect(addedAccount.id).toBeTruthy()
-      expect(addedAccount.name).toBe('any_name')
-      expect(addedAccount.email).toBe('any_email@mail.com')
-      expect(addedAccount.password).toBe('any_password')
+      expect(account).toBeTruthy()
+      expect(account.id).toBeTruthy()
+      expect(account.name).toBe('any_name')
+      expect(account.email).toBe('any_email@mail.com')
+      expect(account.password).toBe('any_password')
     })
 
     test('should return an account on loadByToken with role success', async () => {
+      await accountCollection.insertOne({
+        name: 'any_name',
+        email: 'any_email@mail.com',
+        password: 'any_password',
+        accessToken: 'any_token',
+        role: 'any_role'
+      })
+
       const sut = makeSut()
 
-      const addedAccount = await sut.loadByToken('any_token', 'any_role')
+      const account = await sut.loadByToken('any_token', 'any_role')
 
-      expect(addedAccount).toBeTruthy()
-      expect(addedAccount.id).toBeTruthy()
-      expect(addedAccount.name).toBe('any_name')
-      expect(addedAccount.email).toBe('any_email@mail.com')
-      expect(addedAccount.password).toBe('any_password')
+      expect(account).toBeTruthy()
+      expect(account.id).toBeTruthy()
+      expect(account.name).toBe('any_name')
+      expect(account.email).toBe('any_email@mail.com')
+      expect(account.password).toBe('any_password')
+    })
+
+    test('should return an account on loadByToken with admin role', async () => {
+      await accountCollection.insertOne({
+        name: 'any_name',
+        email: 'any_email@mail.com',
+        password: 'any_password',
+        accessToken: 'any_token',
+        role: 'admin'
+      })
+
+      const sut = makeSut()
+
+      const account = await sut.loadByToken('any_token', 'admin')
+
+      expect(account).toBeTruthy()
+      expect(account.id).toBeTruthy()
+      expect(account.name).toBe('any_name')
+      expect(account.email).toBe('any_email@mail.com')
+      expect(account.password).toBe('any_password')
+    })
+
+    test('should return an account on loadByToken if user is admin', async () => {
+      await accountCollection.insertOne({
+        name: 'any_name',
+        email: 'any_email@mail.com',
+        password: 'any_password',
+        accessToken: 'any_token',
+        role: 'admin'
+      })
+
+      const sut = makeSut()
+
+      const account = await sut.loadByToken('any_token')
+
+      expect(account).toBeTruthy()
+      expect(account.id).toBeTruthy()
+      expect(account.name).toBe('any_name')
+      expect(account.email).toBe('any_email@mail.com')
+      expect(account.password).toBe('any_password')
+    })
+
+    test('should return null on loadByToken with invalid role', async () => {
+      await accountCollection.insertOne({
+        name: 'any_name',
+        email: 'any_email@mail.com',
+        password: 'any_password',
+        accessToken: 'any_token'
+      })
+      const sut = makeSut()
+
+      const account = await sut.loadByToken('any_token', 'any_role')
+
+      expect(account).toBeFalsy()
     })
 
     test('Should return null if loadByEmail fails', async () => {
