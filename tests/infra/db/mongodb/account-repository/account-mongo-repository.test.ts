@@ -5,7 +5,8 @@ import { AccountMongoRepository, MongoHelper } from '../../../../../src/infra/db
 const makeFakeAccount = (): AddAccountModel => ({
   name: 'any_name',
   email: 'any_email@mail.com',
-  password: 'any_password'
+  password: 'any_password',
+  accessToken: 'any_token'
 })
 
 const makeSut = (): AccountMongoRepository => {
@@ -14,7 +15,7 @@ const makeSut = (): AccountMongoRepository => {
 
 let accountCollection: Collection
 
-describe('Account Mongo Repository', () => {
+describe('AccountMongoRepository', () => {
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL)
   })
@@ -75,6 +76,28 @@ describe('Account Mongo Repository', () => {
 
       expect(account).toBeTruthy()
       expect(account.accessToken).toBe('any_token')
+    })
+  })
+
+  describe('loadByToken', () => {
+    test('should return an account on loadByToken without role success', async () => {
+      const sut = makeSut()
+
+      const addedAccount = await sut.loadByToken('any_token')
+
+      expect(addedAccount).toBeTruthy()
+      expect(addedAccount.id).toBeTruthy()
+      expect(addedAccount.name).toBe('any_name')
+      expect(addedAccount.email).toBe('any_email@mail.com')
+      expect(addedAccount.password).toBe('any_password')
+    })
+
+    test('Should return null if loadByEmail fails', async () => {
+      const sut = makeSut()
+
+      const account = await sut.loadByEmail('wrong_mail@mail.com')
+
+      expect(account).toBeFalsy()
     })
   })
 })
