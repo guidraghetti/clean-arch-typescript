@@ -112,5 +112,13 @@ describe('AccountMongoRepository', () => {
 
       expect(account).toBeFalsy()
     })
+
+    test('should return null if loadByToken fails', async () => {
+      const sut = makeSut()
+
+      const account = await sut.loadByToken('wrong_token')
+
+      expect(account).toBeFalsy()
+    })
   })
 })
