@@ -22,7 +22,7 @@ const makeFakeAccount = (): AccountModel => ({
 
 const makeLoadAccountByTokenRepositoryStub = (): LoadAccountByTokenRepository => {
   class LoadAccountByTokenRepositoryStub implements LoadAccountByTokenRepository {
-    async loadByTOken (token: string, role?: string): Promise<AccountModel> {
+    async loadByToken (token: string, role?: string): Promise<AccountModel> {
       return makeFakeAccount()
     }
   }
@@ -63,15 +63,25 @@ describe('LoadAccountByToken', () => {
 
     const account = await sut.load('any_token', 'any_role')
 
-    expect(account).toBe(null)
+    expect(account).toBeNull()
   })
 
   test('Should call LoadAccountByTokenRepository with correct values', async () => {
     const { sut, loadAccountByTokenRepositoryStub } = makeSut()
-    const loadByTokenSpy = jest.spyOn(loadAccountByTokenRepositoryStub, 'loadByTOken')
+    const loadByTokenSpy = jest.spyOn(loadAccountByTokenRepositoryStub, 'loadByToken')
 
     await sut.load('any_token', 'any_role')
 
     expect(loadByTokenSpy).toHaveBeenCalledWith('any_token', 'any_role')
+  })
+
+  test('Should  return null if LoadAccountByTokenRepository returns null', async () => {
+    const { sut, loadAccountByTokenRepositoryStub } = makeSut()
+
+    jest.spyOn(loadAccountByTokenRepositoryStub, 'loadByToken').mockReturnValueOnce(Promise.resolve(null))
+
+    const account = await sut.load('any_token', 'any_role')
+
+    expect(account).toBeNull()
   })
 })
