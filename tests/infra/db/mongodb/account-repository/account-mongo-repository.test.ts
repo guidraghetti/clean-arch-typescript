@@ -6,7 +6,8 @@ const makeFakeAccount = (): AddAccountModel => ({
   name: 'any_name',
   email: 'any_email@mail.com',
   password: 'any_password',
-  accessToken: 'any_token'
+  accessToken: 'any_token',
+  role: 'any_role'
 })
 
 const makeSut = (): AccountMongoRepository => {
@@ -84,6 +85,18 @@ describe('AccountMongoRepository', () => {
       const sut = makeSut()
 
       const addedAccount = await sut.loadByToken('any_token')
+
+      expect(addedAccount).toBeTruthy()
+      expect(addedAccount.id).toBeTruthy()
+      expect(addedAccount.name).toBe('any_name')
+      expect(addedAccount.email).toBe('any_email@mail.com')
+      expect(addedAccount.password).toBe('any_password')
+    })
+
+    test('should return an account on loadByToken with role success', async () => {
+      const sut = makeSut()
+
+      const addedAccount = await sut.loadByToken('any_token', 'any_role')
 
       expect(addedAccount).toBeTruthy()
       expect(addedAccount.id).toBeTruthy()
