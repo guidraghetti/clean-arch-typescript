@@ -2,6 +2,7 @@ import { AddSurvey, AddSurveyModel } from '../../../src/domain/usecases/add-surv
 import { HttpRequest, Validation } from '../../../src/presentation/protocols'
 import { AddSurveyController } from '../../../src/presentation/controller/survey'
 import { badRequest, serverError, successNoContent } from '../../../src/presentation/helpers/http/http-helper'
+import MockDate from 'mockdate'
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {
@@ -51,6 +52,14 @@ const makeSut = (): SutTypes => {
 }
 
 describe('AddSurveyController', () => {
+  beforeAll(() => {
+    MockDate.set(new Date())
+  })
+
+  afterAll(() => {
+    MockDate.reset()
+  })
+
   test('should call Validation with correct values', async () => {
     const { sut, validationStub } = makeSut()
 
@@ -79,7 +88,7 @@ describe('AddSurveyController', () => {
     const httpRequest = makeFakeRequest()
     await sut.handle(httpRequest)
 
-    expect(addSpy).toHaveBeenCalledWith(httpRequest.body)
+    expect(addSpy).toHaveBeenCalledWith({ ...httpRequest.body, createdAt: new Date() })
   })
 
   test('should return 500 if addSurvey throws', async () => {

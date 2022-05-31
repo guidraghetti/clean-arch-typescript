@@ -28,7 +28,8 @@ describe('Survey Mongo Repository', () => {
       answers: [
         { image: 'any_image', answer: 'any_answer' },
         { answer: 'other_answer' }
-      ]
+      ],
+      createdAt: new Date()
     })
 
     const survey = surveyCollection.findOne({ question: 'any_question' })
