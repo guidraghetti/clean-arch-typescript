@@ -1,0 +1,67 @@
+import { SurveyModel } from '../../../src/domain/models/survey'
+import { LoadSurveys } from '../../../src/domain/usecases/load-surveys'
+import { LoadSurveysController } from '../../../src/presentation/controller/survey/load-survey/load-surveys-controller'
+import MockDate from 'mockdate'
+
+const makeFakeSurveys = (): SurveyModel[] => {
+  return [{
+    id: 'any_id',
+    question: 'any_question',
+    answers: [{
+      image: 'any_image',
+      answer: 'any_answer'
+    }],
+    date: new Date()
+  },
+  {
+    id: 'other_id',
+    question: 'other_question',
+    answers: [{
+      image: 'other_image',
+      answer: 'other_answer'
+    }],
+    date: new Date()
+  }]
+}
+
+const makeLoadSurveysStub = (): LoadSurveys => {
+  class LoadSurveysStub implements LoadSurveys {
+    async load (): Promise<SurveyModel[]> {
+      return makeFakeSurveys()
+    }
+  }
+
+  return new LoadSurveysStub()
+}
+interface sutTypes {
+  sut: LoadSurveysController
+  loadSurveysStub: LoadSurveys
+}
+const makeSut = (): sutTypes => {
+  const loadSurveysStub = makeLoadSurveysStub()
+  const sut = new LoadSurveysController(loadSurveysStub)
+
+  return {
+    sut,
+    loadSurveysStub
+  }
+}
+
+describe('LoadSurveyController', () => {
+  beforeAll(() => {
+    MockDate.set(new Date())
+  })
+
+  afterAll(() => {
+    MockDate.reset()
+  })
+
+  test('should call LoadSurveys', async () => {
+    const { sut, loadSurveysStub } = makeSut()
+    const loadSpy = jest.spyOn(loadSurveysStub, 'load')
+
+    await sut.handle({})
+
+    expect(loadSpy).toHaveBeenCalled()
+  })
+})
