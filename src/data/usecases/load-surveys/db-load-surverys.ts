@@ -5,8 +5,6 @@ import { LoadSurveyRepository } from '../../protocols/db/survey/load-survey-repo
 export class DbLoadSurveys implements LoadSurveys {
   constructor (private readonly LoadSurveyRepository: LoadSurveyRepository) {}
   async load (): Promise<SurveyModel[]> {
-    await this.LoadSurveyRepository.loadAll()
-
-    return []
+    return this.LoadSurveyRepository.loadAll()
   }
 }
