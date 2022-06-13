@@ -12,12 +12,12 @@ describe('Survey Mongo Repository', () => {
   })
 
   afterAll(async () => {
-    await surveyCollection.deleteMany({})
     await MongoHelper.disconnect()
   })
 
   beforeEach(async () => {
     surveyCollection = MongoHelper.getCollection('surveys')
+    await surveyCollection.deleteMany({})
   })
 
   describe('add', () => {
@@ -36,6 +36,36 @@ describe('Survey Mongo Repository', () => {
       const survey = surveyCollection.findOne({ question: 'any_question' })
 
       expect(survey).toBeTruthy()
+    })
+  })
+
+  describe('loadAll', () => {
+    test('Should load all surveys on success', async () => {
+      await surveyCollection.insertMany([
+        {
+          question: 'any_question',
+          answers: [
+            { image: 'any_image', answer: 'any_answer' },
+            { answer: 'any_answer' }
+          ],
+          createdAt: new Date()
+        },
+        {
+          question: 'other_question',
+          answers: [
+            { image: 'other_image', answer: 'other_answer' },
+            { answer: 'other_answer' }
+          ],
+          createdAt: new Date()
+        }
+      ])
+      const sut = makeSut()
+
+      const surveys = await sut.loadAll()
+
+      expect(surveys.length).toBe(2)
+      expect(surveys[0].question).toBe('any_question')
+      expect(surveys[1].question).toBe('other_question')
     })
   })
 })
