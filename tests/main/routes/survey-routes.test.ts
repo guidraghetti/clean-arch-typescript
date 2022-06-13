@@ -4,9 +4,36 @@ import request from 'supertest'
 import app from '../../../src/main/config/app'
 import { sign } from 'jsonwebtoken'
 import { JWT_SECRET } from '../../../src/main/config/constants'
+import { AddAccountModel } from '../../../src/domain/usecases'
 
 let surveyCollection: Collection
 let accountCollection: Collection
+
+const makeAccessToken = async (role?: string): Promise<string> => {
+  const account: AddAccountModel = {
+    name: 'any_name',
+    email: 'email@mail.com',
+    password: 'any_password'
+  }
+
+  if (role) {
+    account.role = role
+  }
+  const res = await accountCollection.insertOne(account)
+
+  const id = res.insertedId
+  const accessToken = sign({ id }, JWT_SECRET)
+  await accountCollection.updateOne({
+    _id: id
+  }, {
+    $set: {
+      accessToken
+    }
+  })
+
+  return accessToken
+}
+
 describe('Survey Routes', () => {
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL)
@@ -36,23 +63,7 @@ describe('Survey Routes', () => {
     })
 
     test('should return 204 on add survey with valid accessToken', async () => {
-      const result = await accountCollection.insertOne({
-        name: 'any_name',
-        email: 'email@mail.com',
-        password: 'any_password',
-        role: 'admin'
-      })
-
-      const id = result.insertedId
-      const accessToken = sign({ id }, JWT_SECRET)
-
-      await accountCollection.updateOne({
-        _id: id
-      }, {
-        $set: {
-          accessToken
-        }
-      })
+      const accessToken = await makeAccessToken('admin')
 
       await request(app).post('/surveys')
         .set('x-access-token', accessToken)
@@ -61,6 +72,8 @@ describe('Survey Routes', () => {
           answers: [{
             answer: 'any_answer',
             image: 'http://image.com/image.jpg'
+          }, {
+            answer: 'other_answer'
           }]
         }).expect(204)
     })
@@ -72,22 +85,7 @@ describe('Survey Routes', () => {
     })
 
     test('should return 200 on load surveys with valid accessToken', async () => {
-      const res = await accountCollection.insertOne({
-        name: 'any_name',
-        email: 'email@mail.com',
-        password: 'any_password'
-      })
-
-      const id = res.insertedId
-      const accessToken = sign({ id }, JWT_SECRET)
-      await accountCollection.updateOne({
-        _id: id
-      }, {
-        $set: {
-          accessToken
-        }
-      })
-
+      const accessToken = await makeAccessToken()
       await request(app).get('/surveys')
         .set('x-access-token', accessToken)
         .expect(200)
