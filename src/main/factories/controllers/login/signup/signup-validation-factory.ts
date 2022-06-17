@@ -1,5 +1,5 @@
-import { Validation } from '../../../../../presentation/protocols'
-import { ValidationComposite, ValidationRequiredField, ValidationCompareField, ValidationEmail } from '../../../../../validation/validators'
+import { Validation } from '@/presentation/protocols'
+import { ValidationComposite, ValidationRequiredField, ValidationCompareField, ValidationEmail } from '@/validation/validators'
 import { EmailValidatorAdapter } from '../../../../adapters'
 
 export const makeSignupValidation = (): ValidationComposite => {

@@ -1,4 +1,4 @@
-import { Authentication, AuthenticationModel } from '../../../domain/usecases/authentication'
+import { Authentication, AuthenticationModel } from '@/domain/usecases/authentication'
 import { HashCompare } from '../../protocols/criptography/hash-compare'
 import { Encrypter } from '../../protocols/criptography/encrypter'
 import { LoadAccountByEmailRepository } from '../../protocols/db/account/load-account-by-email-repository'

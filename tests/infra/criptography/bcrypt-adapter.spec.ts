@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs'
-import { BcryptAdapter } from '../../../src/infra/criptography'
-import { BCRYPT_SALT } from '../../../src/main/config/constants'
+import { BcryptAdapter } from '@/infra/criptography'
+import { BCRYPT_SALT } from '@/main/config/constants'
 
 jest.mock('bcryptjs', () => ({
   async hash (): Promise<string> {

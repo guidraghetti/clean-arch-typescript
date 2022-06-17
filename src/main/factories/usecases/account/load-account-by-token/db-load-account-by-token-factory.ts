@@ -1,7 +1,7 @@
-import { DbLoadAccountByToken } from '../../../../../data/usecases/load-account-by-token/db-load-account-by-token'
-import { LoadAccountByToken } from '../../../../../domain/usecases'
-import { JwtAdapter } from '../../../../../infra/criptography'
-import { AccountMongoRepository } from '../../../../../infra/db'
+import { DbLoadAccountByToken } from '@/data/usecases/load-account-by-token/db-load-account-by-token'
+import { LoadAccountByToken } from '@/domain/usecases'
+import { JwtAdapter } from '@/infra/criptography'
+import { AccountMongoRepository } from '@/infra/db'
 import { JWT_SECRET } from '../../../../config/constants'
 
 export const makeDbLoadAccountByTokenFactory = (): LoadAccountByToken => {

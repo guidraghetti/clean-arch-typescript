@@ -1,7 +1,7 @@
-import { LoadAccountByEmailRepository, HashCompare, Encrypter, UpdateAccessTokenRepository } from '../../../../src/data/protocols'
-import { DbAuthentication } from '../../../../src/data/usecases'
-import { AccountModel } from '../../../../src/domain/models/account'
-import { AuthenticationModel } from '../../../../src/domain/usecases'
+import { LoadAccountByEmailRepository, HashCompare, Encrypter, UpdateAccessTokenRepository } from '@/data/protocols'
+import { DbAuthentication } from '@/data/usecases'
+import { AccountModel } from '@/domain/models/account'
+import { AuthenticationModel } from '@/domain/usecases'
 
 const makeFakeRequest = (): AccountModel => ({
   id: 'any_id',
