@@ -1,6 +1,6 @@
-import { LoadSurveyRepository } from '../../../src/data/protocols/db/survey/load-survey-repository'
-import { DbLoadSurveys } from '../../../src/data/usecases/load-surveys/db-load-surverys'
-import { SurveyModel } from '../../../src/domain/models/survey'
+import { LoadSurveyRepository } from '@/data/protocols/db/survey/load-survey-repository'
+import { DbLoadSurveys } from '@/data/usecases/load-surveys/db-load-surverys'
+import { SurveyModel } from '@/domain/models/survey'
 import MockDate from 'mockdate'
 
 const makeFakeSurveys = (): SurveyModel[] => {

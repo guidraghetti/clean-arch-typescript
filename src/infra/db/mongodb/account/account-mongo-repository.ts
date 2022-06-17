@@ -1,8 +1,8 @@
 import { ObjectId } from 'mongodb'
-import { AddAccountRepository, LoadAccountByEmailRepository } from '../../../../data/protocols'
-import { LoadAccountByTokenRepository } from '../../../../data/protocols/db/account/load-account-by-token-repository'
-import { AccountModel } from '../../../../domain/models/account'
-import { AddAccountModel } from '../../../../domain/usecases'
+import { AddAccountRepository, LoadAccountByEmailRepository } from '@/data/protocols'
+import { LoadAccountByTokenRepository } from '@/data/protocols/db/account/load-account-by-token-repository'
+import { AccountModel } from '@/domain/models/account'
+import { AddAccountModel } from '@/domain/usecases'
 import { MongoHelper } from '../helpers/mongo-helper'
 
 export class AccountMongoRepository implements AddAccountRepository, LoadAccountByEmailRepository, LoadAccountByTokenRepository {

@@ -1,10 +1,10 @@
 import { Collection } from 'mongodb'
-import { MongoHelper } from '../../../src/infra/db'
+import { MongoHelper } from '@/infra/db'
 import request from 'supertest'
-import app from '../../../src/main/config/app'
+import app from '@/main/config/app'
 import { sign } from 'jsonwebtoken'
-import { JWT_SECRET } from '../../../src/main/config/constants'
-import { AddAccountModel } from '../../../src/domain/usecases'
+import { JWT_SECRET } from '@/main/config/constants'
+import { AddAccountModel } from '@/domain/usecases'
 
 let surveyCollection: Collection
 let accountCollection: Collection

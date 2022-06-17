@@ -1,6 +1,6 @@
-import { AddSurveyRepository } from '../../../../src/data/protocols/db/survey/add-survey-repository'
-import { DbAddSurvey } from '../../../../src/data/usecases'
-import { AddSurveyModel } from '../../../../src/domain/usecases/add-survey'
+import { AddSurveyRepository } from '@/data/protocols/db/survey/add-survey-repository'
+import { DbAddSurvey } from '@/data/usecases'
+import { AddSurveyModel } from '@/domain/usecases/add-survey'
 import MockDate from 'mockdate'
 
 const makeFakeSurvey = (): AddSurveyModel => ({

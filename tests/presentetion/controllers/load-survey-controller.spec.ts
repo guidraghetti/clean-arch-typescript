@@ -1,8 +1,8 @@
-import { SurveyModel } from '../../../src/domain/models/survey'
-import { LoadSurveys } from '../../../src/domain/usecases/load-surveys'
-import { LoadSurveysController } from '../../../src/presentation/controller/survey/load-survey/load-surveys-controller'
+import { SurveyModel } from '@/domain/models/survey'
+import { LoadSurveys } from '@/domain/usecases/load-surveys'
+import { LoadSurveysController } from '@/presentation/controller/survey/load-survey/load-surveys-controller'
 import MockDate from 'mockdate'
-import { serverError, success, successNoContent } from '../../../src/presentation/helpers/http/http-helper'
+import { serverError, success, successNoContent } from '@/presentation/helpers/http/http-helper'
 
 const makeFakeSurveys = (): SurveyModel[] => {
   return [{

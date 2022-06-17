@@ -1,7 +1,7 @@
-import { LoadAccountByEmailRepository, Hasher, AddAccountRepository } from '../../../../src/data/protocols'
-import { DbAddAccount } from '../../../../src/data/usecases'
-import { AccountModel } from '../../../../src/domain/models/account'
-import { AddAccountModel } from '../../../../src/domain/usecases'
+import { LoadAccountByEmailRepository, Hasher, AddAccountRepository } from '@/data/protocols'
+import { DbAddAccount } from '@/data/usecases'
+import { AccountModel } from '@/domain/models/account'
+import { AddAccountModel } from '@/domain/usecases'
 
 const makeAccountData = (): AddAccountModel => ({
   name: 'any_name',
