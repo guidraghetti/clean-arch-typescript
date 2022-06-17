@@ -2,7 +2,7 @@ export interface SurveyModel {
   id: string
   question: string
   answers: SurveyAnswerModel[]
-  date: Date
+  createdAt: Date
 }
 
 export interface SurveyAnswerModel {
