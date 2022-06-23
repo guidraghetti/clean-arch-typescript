@@ -6,7 +6,7 @@ let surveyCollection: Collection
 
 const makeSut = (): SurveyMongoRepository => new SurveyMongoRepository()
 
-describe('Survey Mongo Repository', () => {
+describe('SurveyMongoRepository', () => {
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL)
   })
