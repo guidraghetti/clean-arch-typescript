@@ -21,5 +21,9 @@ export const MongoHelper = {
   map: (mongoCollection: any): any => {
     const { _id, ...rest } = mongoCollection
     return { ...rest, id: _id.toString() }
+  },
+
+  mapCollections: (mongoCollections: any[]): any => {
+    return mongoCollections.map(collection => MongoHelper.map(collection))
   }
 }
