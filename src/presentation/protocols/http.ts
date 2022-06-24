@@ -7,4 +7,5 @@ export type HttpRequest = {
   headers?: any
   body?: any
   params?: Record<string, string>
+  accountId?: string
 }
