@@ -1,5 +1,5 @@
 import { SurveyModel } from '@/domain/models/survey'
-import { LoadSurveys } from '@/domain/usecases/load-surveys'
+import { LoadSurveys } from '@/domain/usecases'
 import { LoadSurveysController } from '@/presentation/controller/survey/load-survey/load-surveys-controller'
 import MockDate from 'mockdate'
 import { serverError, success, successNoContent } from '@/presentation/helpers/http/http-helper'
