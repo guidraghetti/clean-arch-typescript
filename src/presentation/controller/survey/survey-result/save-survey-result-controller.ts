@@ -13,6 +13,7 @@ export class SaveSurveyResultController implements Controller {
       const survey = await this.loadSurveyById.loadById(surveyId)
 
       if (survey) {
+        console.log(survey)
         const answerFinded = survey.answers.find(surveyAnswer => surveyAnswer.answer === answer)
 
         if (!answerFinded) {

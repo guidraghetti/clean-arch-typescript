@@ -16,9 +16,11 @@ export class AuthMiddleware {
       if (accessToken) {
         const account = await this.loadAccountByToken.load(accessToken, this.role)
 
-        return success({
-          accountId: account.id
-        })
+        if (account) {
+          return success({
+            accountId: account.id
+          })
+        }
       }
 
       return forbidden(new AccessDeniedError())
