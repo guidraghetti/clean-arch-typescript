@@ -44,7 +44,7 @@ describe('Survey Routes', () => {
   })
 
   beforeEach(async () => {
-    surveyCollection = MongoHelper.getCollection('survey')
+    surveyCollection = MongoHelper.getCollection('surveys')
     accountCollection = MongoHelper.getCollection('accounts')
 
     await surveyCollection.deleteMany({})
@@ -84,11 +84,11 @@ describe('Survey Routes', () => {
       await request(app).get('/surveys').expect(403)
     })
 
-    test('should return 200 on load surveys with valid accessToken', async () => {
+    test('should return 204 on load surveys with valid accessToken', async () => {
       const accessToken = await makeAccessToken()
       await request(app).get('/surveys')
         .set('x-access-token', accessToken)
-        .expect(200)
+        .expect(204)
     })
   })
 
@@ -97,6 +97,28 @@ describe('Survey Routes', () => {
       await request(app).put('/surveys/any_id/results').send({
         answer: 'any_answer'
       }).expect(403)
+    })
+
+    test('should return 200 on save survey result with valid accessToken', async () => {
+      const res = await surveyCollection.insertOne({
+        question: 'any_question',
+        answers: [{
+          answer: 'any_answer',
+          image: 'http://image.com/image.jpg'
+        }, {
+          answer: 'other_answer'
+        }],
+        date: new Date()
+      })
+
+      const accessToken = await makeAccessToken()
+      await request(app)
+        .put(`/surveys/${res.insertedId.toHexString()}/results`)
+        .set('x-access-token', accessToken)
+        .send({
+          answer: 'any_answer'
+        })
+        .expect(200)
     })
   })
 })
