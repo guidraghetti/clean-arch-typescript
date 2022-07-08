@@ -4,13 +4,13 @@ import request from 'supertest'
 import app from '@/main/config/app'
 import { sign } from 'jsonwebtoken'
 import { JWT_SECRET } from '@/main/config/constants'
-import { AddAccountModel } from '@/domain/usecases'
+import { AddAccountParams } from '@/domain/usecases'
 
 let surveyCollection: Collection
 let accountCollection: Collection
 
 const makeAccessToken = async (role?: string): Promise<string> => {
-  const account: AddAccountModel = {
+  const account: AddAccountParams = {
     name: 'any_name',
     email: 'email@mail.com',
     password: 'any_password'

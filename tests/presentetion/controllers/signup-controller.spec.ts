@@ -1,5 +1,5 @@
 import { AccountModel } from '@/domain/models/account'
-import { Authentication, AuthenticationModel, AddAccount, AddAccountModel } from '@/domain/usecases'
+import { Authentication, AuthenticationParams, AddAccount, AddAccountParams } from '@/domain/usecases'
 import { HttpRequest, Validation } from '@/presentation/protocols'
 import { SignUpController } from '@/presentation/controller/login/signup/signup-controller'
 import { ServerError, MissingParamError } from '@/presentation/errors'
@@ -8,7 +8,7 @@ import { serverError, success, forbidden, badRequest } from '@/presentation/help
 
 const makeAuthentication = (): any => {
   class AuthenticationStub implements Authentication {
-    async auth (authenticationModel: AuthenticationModel): Promise<string> {
+    async auth (AuthenticationParams: AuthenticationParams): Promise<string> {
       return 'any_token'
     }
   }
@@ -34,7 +34,7 @@ const makeFakeAccount = (): AccountModel => ({
 
 const makeAddAccount = (): AddAccount => {
   class AddAccountStub implements AddAccount {
-    async add (account: AddAccountModel): Promise<AccountModel> {
+    async add (account: AddAccountParams): Promise<AccountModel> {
       const fakeAccount = makeFakeAccount()
 
       return fakeAccount

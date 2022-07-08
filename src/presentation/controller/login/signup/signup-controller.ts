@@ -1,4 +1,4 @@
-import { AddAccount, AddAccountModel, Authentication } from '@/domain/usecases'
+import { AddAccount, AddAccountParams, Authentication } from '@/domain/usecases'
 import { UniqueError } from '../../../errors/unique-error'
 import { badRequest, forbidden, success, serverError } from '../../../helpers/http/http-helper'
 import { Controller, Validation, HttpRequest, HttpResponse } from '../../../protocols'
@@ -19,7 +19,7 @@ export class SignUpController implements Controller {
       }
 
       const { email, name, password, role } = httpRequest.body
-      const newAccount: AddAccountModel = { email, name, password }
+      const newAccount: AddAccountParams = { email, name, password }
 
       if (role) {
         newAccount.role = role

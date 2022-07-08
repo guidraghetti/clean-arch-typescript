@@ -1,9 +1,9 @@
 import { LoadAccountByEmailRepository, Hasher, AddAccountRepository } from '@/data/protocols'
 import { DbAddAccount } from '@/data/usecases'
 import { AccountModel } from '@/domain/models/account'
-import { AddAccountModel } from '@/domain/usecases'
+import { AddAccountParams } from '@/domain/usecases'
 
-const makeAccountData = (): AddAccountModel => ({
+const makeAccountData = (): AddAccountParams => ({
   name: 'any_name',
   email: 'any_email@mail.com',
   password: 'any_password'
