@@ -2,6 +2,7 @@ import { LoadAccountByEmailRepository, HashCompare, Encrypter, UpdateAccessToken
 import { DbAuthentication } from '@/data/usecases'
 import { AccountModel } from '@/domain/models/account'
 import { AuthenticationParams } from '@/domain/usecases'
+import { throwError } from '../../domain/mocks'
 
 const makeFakeRequest = (): AccountModel => ({
   id: 'any_id',
@@ -93,7 +94,7 @@ describe('DB Authentication Usecase', () => {
   test('Should throw if LoadAccountByEmailRepository throws', async () => {
     const { sut, loadAccountByEmailRepositoryStub } = makeSut()
 
-    jest.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail').mockReturnValueOnce(Promise.reject(new Error()))
+    jest.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail').mockImplementationOnce(throwError)
 
     const authPromise = sut.auth(makeFakeAuthenticantion())
 
@@ -122,7 +123,7 @@ describe('DB Authentication Usecase', () => {
   test('Should throw if HashCompare throws', async () => {
     const { sut, hashCompareStub } = makeSut()
 
-    jest.spyOn(hashCompareStub, 'compare').mockReturnValueOnce(Promise.reject(new Error()))
+    jest.spyOn(hashCompareStub, 'compare').mockImplementationOnce(throwError)
 
     const promise = sut.auth(makeFakeAuthenticantion())
 
@@ -151,7 +152,7 @@ describe('DB Authentication Usecase', () => {
   test('Should throw if TokenGenerator throws', async () => {
     const { sut, encrypterStub } = makeSut()
 
-    jest.spyOn(encrypterStub, 'encrypt').mockReturnValueOnce(Promise.reject(new Error()))
+    jest.spyOn(encrypterStub, 'encrypt').mockImplementationOnce(throwError)
 
     const promise = sut.auth(makeFakeAuthenticantion())
 
@@ -178,7 +179,7 @@ describe('DB Authentication Usecase', () => {
   test('Should throw if u UpdateAccessTokenRepository', async () => {
     const { sut, updateAccessTokenRepotitoryStub } = makeSut()
 
-    jest.spyOn(updateAccessTokenRepotitoryStub, 'updateAccessToken').mockReturnValueOnce(Promise.reject(new Error()))
+    jest.spyOn(updateAccessTokenRepotitoryStub, 'updateAccessToken').mockImplementationOnce(throwError)
 
     const promise = sut.auth(makeFakeAuthenticantion())
 
