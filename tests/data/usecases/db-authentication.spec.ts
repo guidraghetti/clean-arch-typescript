@@ -2,14 +2,8 @@ import { LoadAccountByEmailRepository, HashCompare, Encrypter, UpdateAccessToken
 import { DbAuthentication } from '@/data/usecases'
 import { AccountModel } from '@/domain/models/account'
 import { AuthenticationParams } from '@/domain/usecases'
-import { throwError } from '../../domain/mocks'
-
-const makeFakeRequest = (): AccountModel => ({
-  id: 'any_id',
-  name: 'any_name',
-  email: 'any_email@mail.com',
-  password: 'hash_password'
-})
+import { mockFakeAccountModel, throwError } from '../../domain/mocks'
+import { mockEncrypterStub, mockHashCompareStub } from '../mocks'
 
 const makeFakeAuthenticantion = (): AuthenticationParams => ({
   email: 'any_email@mail.com',
@@ -19,32 +13,12 @@ const makeFakeAuthenticantion = (): AuthenticationParams => ({
 const makeLoadAccountByEmailRepositoryStub = (): LoadAccountByEmailRepository => {
   class LoadAccountByEmailRepositoryStub implements LoadAccountByEmailRepository {
     async loadByEmail (email: string): Promise<AccountModel> {
-      const account = makeFakeRequest()
+      const account = mockFakeAccountModel()
 
       return account
     }
   }
   return new LoadAccountByEmailRepositoryStub()
-}
-
-const makeHashCompareStub = (): HashCompare => {
-  class HashCompareStub implements HashCompare {
-    async compare (value: string, hash: string): Promise<boolean> {
-      return true
-    }
-  }
-
-  return new HashCompareStub()
-}
-
-const makeEncrypterStub = (): Encrypter => {
-  class EncrypterStub implements Encrypter {
-    async encrypt (id: string): Promise<string> {
-      return 'any_token'
-    }
-  }
-
-  return new EncrypterStub()
 }
 
 const makeUpdateAccessTokenRepositoryStub = (): UpdateAccessTokenRepository => {
@@ -66,8 +40,8 @@ type SutTypes = {
 
 const makeSut = (): SutTypes => {
   const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepositoryStub()
-  const hashCompareStub = makeHashCompareStub()
-  const encrypterStub = makeEncrypterStub()
+  const hashCompareStub = mockHashCompareStub()
+  const encrypterStub = mockEncrypterStub()
   const updateAccessTokenRepotitoryStub = makeUpdateAccessTokenRepositoryStub()
 
   const sut = new DbAuthentication(loadAccountByEmailRepositoryStub, hashCompareStub, encrypterStub, updateAccessTokenRepotitoryStub)
@@ -117,7 +91,7 @@ describe('DB Authentication Usecase', () => {
     const compareSpy = jest.spyOn(hashCompareStub, 'compare')
     await sut.auth(makeFakeAuthenticantion())
 
-    expect(compareSpy).toHaveBeenCalledWith('any_password', 'hash_password')
+    expect(compareSpy).toHaveBeenCalledWith('any_password', 'any_password')
   })
 
   test('Should throw if HashCompare throws', async () => {

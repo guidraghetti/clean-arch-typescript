@@ -1,14 +1,6 @@
 import { Collection } from 'mongodb'
-import { AddAccountParams } from '@/domain/usecases'
 import { AccountMongoRepository, MongoHelper } from '@/infra/db'
-
-const makeFakeAccount = (): AddAccountParams => ({
-  name: 'any_name',
-  email: 'any_email@mail.com',
-  password: 'any_password',
-  accessToken: 'any_token',
-  role: 'any_role'
-})
+import { mockFakeAccountModel } from '../../../domain/mocks'
 
 const makeSut = (): AccountMongoRepository => {
   return new AccountMongoRepository()
@@ -34,7 +26,7 @@ describe('AccountMongoRepository', () => {
     test('should return an account on success', async () => {
       const sut = makeSut()
 
-      const addedAccount = await sut.add(makeFakeAccount())
+      const addedAccount = await sut.add(mockFakeAccountModel())
 
       expect(addedAccount).toBeTruthy()
       expect(addedAccount.id).toBeTruthy()

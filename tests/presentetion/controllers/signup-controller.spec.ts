@@ -5,6 +5,7 @@ import { SignUpController } from '@/presentation/controller/login/signup/signup-
 import { ServerError, MissingParamError } from '@/presentation/errors'
 import { UniqueError } from '@/presentation/errors/unique-error'
 import { serverError, success, forbidden, badRequest } from '@/presentation/helpers/http/http-helper'
+import { mockFakeAccountModel } from '../../domain/mocks'
 
 const makeAuthentication = (): any => {
   class AuthenticationStub implements Authentication {
@@ -25,17 +26,10 @@ const makeFakeRequest = (): HttpRequest => ({
   }
 })
 
-const makeFakeAccount = (): AccountModel => ({
-  id: 'any_id',
-  name: 'any_name',
-  email: 'any_email@mail.com',
-  password: 'any_password'
-})
-
 const makeAddAccount = (): AddAccount => {
   class AddAccountStub implements AddAccount {
     async add (account: AddAccountParams): Promise<AccountModel> {
-      const fakeAccount = makeFakeAccount()
+      const fakeAccount = mockFakeAccountModel()
 
       return fakeAccount
     }
