@@ -1,45 +1,16 @@
-import { SurveyModel } from '@/domain/models/survey'
 import { LoadSurveys } from '@/domain/usecases'
 import { LoadSurveysController } from '@/presentation/controller/survey/load-survey/load-surveys-controller'
 import MockDate from 'mockdate'
 import { serverError, success, successNoContent } from '@/presentation/helpers/http/http-helper'
+import { mockFakeSurveyModels } from '../../domain/mocks'
+import { mockLoadSurveys } from '../mocks'
 
-const makeFakeSurveys = (): SurveyModel[] => {
-  return [{
-    id: 'any_id',
-    question: 'any_question',
-    answers: [{
-      image: 'any_image',
-      answer: 'any_answer'
-    }],
-    createdAt: new Date()
-  },
-  {
-    id: 'other_id',
-    question: 'other_question',
-    answers: [{
-      image: 'other_image',
-      answer: 'other_answer'
-    }],
-    createdAt: new Date()
-  }]
-}
-
-const makeLoadSurveysStub = (): LoadSurveys => {
-  class LoadSurveysStub implements LoadSurveys {
-    async load (): Promise<SurveyModel[]> {
-      return makeFakeSurveys()
-    }
-  }
-
-  return new LoadSurveysStub()
-}
 type SutTypes = {
   sut: LoadSurveysController
   loadSurveysStub: LoadSurveys
 }
 const makeSut = (): SutTypes => {
-  const loadSurveysStub = makeLoadSurveysStub()
+  const loadSurveysStub = mockLoadSurveys()
   const sut = new LoadSurveysController(loadSurveysStub)
 
   return {
@@ -71,7 +42,7 @@ describe('LoadSurveyController', () => {
 
     const httpResponse = await sut.handle({})
 
-    expect(httpResponse).toEqual(success(makeFakeSurveys()))
+    expect(httpResponse).toEqual(success(mockFakeSurveyModels()))
   })
 
   test('Should return 500 if LoadSurvey throws', async () => {
