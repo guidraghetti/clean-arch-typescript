@@ -1,7 +1,4 @@
 {
-  "ts-node": {
-    "files": true
-  },
   "compilerOptions": {
     "outDir": "./dist",
     "module": "commonjs",
@@ -9,14 +6,13 @@
     "esModuleInterop": true,
     "declaration": true,
     "sourceMap": true,
-    "rootDirs": ["./src", "./tests"],
-    "baseUrl": "./src",
-    
+    "rootDirs": ["src", "tests"],
+    "baseUrl": "src",
     "paths": {
       "@/tests/*": ["../tests/*"],
       "@/*": ["*"]
     }
   },
   "include": ["src/**/*", "tests/**/*"],
-  "exclude": []
+  "exclude": ["node_modules"]
 }
