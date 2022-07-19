@@ -1,4 +1,10 @@
 {
+  "ts-node": {
+    "transpileOnly": true,
+    "respawn": true,
+    "ignoreWatch": "node_modules",
+    "noNotify": true
+  },
   "compilerOptions": {
     "outDir": "./dist",
     "module": "commonjs",
@@ -13,6 +19,6 @@
       "@/*": ["*"]
     }
   },
-  "include": ["src/**/*", "tests/**/*"],
+  "include": ["src/**/*.ts", "tests/**/*.ts"],
   "exclude": ["node_modules"]
 }
