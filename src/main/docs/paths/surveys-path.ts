@@ -7,16 +7,6 @@ export const surveysPath = {
     ],
     tags: ['Survey'],
     summary: 'API to get all surveys',
-    requestBody: {
-      content: {
-        'application/json': {
-          schema: {
-            $ref: '#/schemas/loginParamsSchema'
-          }
-        }
-      }
-    },
-
     responses: {
       200: {
         description: 'Success',
@@ -27,6 +17,39 @@ export const surveysPath = {
             }
           }
         }
+      },
+      403: {
+        $ref: '#/components/forbidden'
+      },
+      404: {
+        $ref: '#/components/notFound'
+      },
+      500: {
+        $ref: '#/components/serverError'
+      }
+    }
+  },
+  post: {
+    security: [
+      {
+        apiKeySchema: []
+      }
+    ],
+    tags: ['Survey'],
+    summary: 'API to add a survey',
+    requestBody: {
+      content: {
+        'application/json': {
+          schema: {
+            $ref: '#/schemas/addSurveyParamsSchema'
+          }
+        }
+      }
+    },
+
+    responses: {
+      204: {
+        description: 'Success'
       },
       403: {
         $ref: '#/components/forbidden'
