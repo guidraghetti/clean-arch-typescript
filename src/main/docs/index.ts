@@ -1,5 +1,6 @@
-import { loginPath } from './paths/login-path'
-import { accountSchema, loginParamsSchema } from './schemas'
+import { loginPath, surveysPath } from './paths'
+import { accountSchema, loginParamsSchema, errorSchema, answerSchema, surveySchema, surveysSchema, apiKeySchema } from './schemas'
+import { badRequest, unauthorized, serverError, notFound, forbidden } from './components'
 
 export const swaggerConfig = {
   openapi: '3.0.0',
@@ -7,14 +8,34 @@ export const swaggerConfig = {
     title: 'Clean Arch API',
     description: 'API de clean arch'
   },
-  tags: [{
-    name: 'Login'
-  }],
+  tags: [
+    {
+      name: 'Login'
+    },
+    {
+      name: 'Survey'
+    }
+  ],
   paths: {
-    '/login': loginPath
+    '/login': loginPath,
+    '/survey': surveysPath
   },
   schemas: {
     accountSchema,
-    loginParamsSchema
+    loginParamsSchema,
+    errorSchema,
+    answerSchema,
+    surveySchema,
+    surveysSchema
+  },
+  components: {
+    securitySchemes: {
+      apiKeySchema
+    },
+    badRequest,
+    serverError,
+    unauthorized,
+    notFound,
+    forbidden
   }
 }

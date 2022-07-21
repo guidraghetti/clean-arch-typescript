@@ -1,7 +1,12 @@
-export const loginPath = {
-  post: {
-    tags: ['Login'],
-    summary: 'API to authenticate user',
+export const surveysPath = {
+  get: {
+    security: [
+      {
+        apiKeySchema: []
+      }
+    ],
+    tags: ['Survey'],
+    summary: 'API to get all surveys',
     requestBody: {
       content: {
         'application/json': {
@@ -18,16 +23,13 @@ export const loginPath = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#/schemas/accountSchema'
+              $ref: '#/schemas/surveysSchema'
             }
           }
         }
       },
-      400: {
-        $ref: '#/components/badRequest'
-      },
-      401: {
-        $ref: '#/components/unauthorized'
+      403: {
+        $ref: '#/components/forbidden'
       },
       404: {
         $ref: '#/components/notFound'
