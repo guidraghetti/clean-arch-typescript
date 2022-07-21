@@ -1,5 +1,17 @@
-import { loginPath, surveysPath, signupPath } from './paths'
-import { accountSchema, loginParamsSchema, errorSchema, answerSchema, surveySchema, surveysSchema, apiKeySchema, signupParamsSchema, addSurveyParamsSchema } from './schemas'
+import { loginPath, surveysPath, signupPath, surveyResultPath } from './paths'
+import {
+  accountSchema,
+  loginParamsSchema,
+  errorSchema,
+  answerSchema,
+  surveySchema,
+  surveysSchema,
+  apiKeySchema,
+  signupParamsSchema,
+  addSurveyParamsSchema,
+  saveSurveyResultSchema,
+  surveyResultSchema
+} from './schemas'
 import { badRequest, unauthorized, serverError, notFound, forbidden } from './components'
 
 export const swaggerConfig = {
@@ -22,7 +34,8 @@ export const swaggerConfig = {
   paths: {
     '/signup': signupPath,
     '/login': loginPath,
-    '/survey': surveysPath
+    '/survey': surveysPath,
+    '/survey/{surveyId}/result': surveyResultPath
   },
   schemas: {
     accountSchema,
@@ -32,7 +45,9 @@ export const swaggerConfig = {
     answerSchema,
     surveySchema,
     surveysSchema,
-    addSurveyParamsSchema
+    addSurveyParamsSchema,
+    saveSurveyResultSchema,
+    surveyResultSchema
   },
   components: {
     securitySchemes: {
