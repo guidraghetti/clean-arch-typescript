@@ -1,17 +1,7 @@
-import { mockSaveSurveyResultModel } from '../../domain/mocks'
-import { SurveyResultModel } from '@/domain/models/survey-result'
 import { DbLoadSurveyResult } from '@/data/usecases/'
 import { LoadSurveyResultRepository } from '@/data/protocols'
+import { mockLoadSurveyResultRepository } from '../mocks'
 
-const mockLoadSurveyResultRepository = (): LoadSurveyResultRepository => {
-  class LoadSurveyResultRepositoryStub {
-    async loadBySurveyId (surveyId: string): Promise<SurveyResultModel> {
-      return mockSaveSurveyResultModel()
-    }
-  }
-
-  return new LoadSurveyResultRepositoryStub()
-}
 type SutTypes = {
   sut: DbLoadSurveyResult
   loadSurveyResultRepository: LoadSurveyResultRepository
