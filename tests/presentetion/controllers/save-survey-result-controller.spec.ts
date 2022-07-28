@@ -4,7 +4,7 @@ import { LoadSurveyById, SaveSurveyResult } from '@/domain/usecases'
 import { forbidden, serverError, success } from '@/presentation/helpers/http/http-helper'
 import { InvalidParamError } from '@/presentation/errors'
 import MockDate from 'mockdate'
-import { mockLoadSurveyByIdRepository, mockSaveSurveyRepository } from '../../data/mocks'
+import { mockLoadSurveyByIdRepository, mockSaveSurveyResult } from '../../data/mocks'
 import { mockSaveSurveyResultModel } from '../../domain/mocks'
 
 const makeFakeRequest = (): HttpRequest => ({
@@ -25,7 +25,7 @@ type SutTypes = {
 
 const makeSut = (): SutTypes => {
   const loadSurveyByIdStub = mockLoadSurveyByIdRepository()
-  const saveSurveyResultStub = mockSaveSurveyRepository()
+  const saveSurveyResultStub = mockSaveSurveyResult()
   const sut = new SaveSurveyResultController(loadSurveyByIdStub, saveSurveyResultStub)
 
   return {
@@ -99,7 +99,7 @@ describe('SaveSurveyRestultController', () => {
     expect(httpResponse).toEqual(serverError(new Error()))
   })
 
-  test('Should return 200 on success', async () => {
+  test('Should return SurveyResult on success', async () => {
     const { sut } = makeSut()
     const httpResponse = await sut.handle(makeFakeRequest())
 

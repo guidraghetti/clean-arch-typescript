@@ -34,14 +34,24 @@ export const mockLoadSurveysRepository = (): LoadSurveyRepository => {
   return new LoadSurveyRepositoryStub()
 }
 
-export const mockSaveSurveyRepository = (): SaveSurveyResult => {
-  class SaveSurveyRepositoryStub implements SaveSurveyResultRepository {
+export const mockSaveSurveyResult = (): SaveSurveyResult => {
+  class SaveSurveyRepositoryStub implements SaveSurveyResult {
     async save (data: SaveSurveyResultParams): Promise<SurveyResultModel> {
       return mockSaveSurveyResultModel()
     }
   }
 
   return new SaveSurveyRepositoryStub()
+}
+
+export const mockSaveSurveyResultRepository = (): SaveSurveyResultRepository => {
+  class SaveSurveyResultRepositoryStub implements SaveSurveyResultRepository {
+    async save (data: SaveSurveyResultParams): Promise<void> {
+      ''
+    }
+  }
+
+  return new SaveSurveyResultRepositoryStub()
 }
 
 export const mockLoadSurveyResultRepository = (): LoadSurveyResultRepository => {
