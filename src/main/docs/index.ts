@@ -10,7 +10,8 @@ import {
   signupParamsSchema,
   addSurveyParamsSchema,
   saveSurveyResultSchema,
-  surveyResultSchema
+  surveyResultSchema,
+  surveyResultAnswerSchema
 } from './schemas'
 import { badRequest, unauthorized, serverError, notFound, forbidden } from './components'
 
@@ -47,7 +48,8 @@ export const swaggerConfig = {
     surveysSchema,
     addSurveyParamsSchema,
     saveSurveyResultSchema,
-    surveyResultSchema
+    surveyResultSchema,
+    surveyResultAnswerSchema
   },
   components: {
     securitySchemes: {

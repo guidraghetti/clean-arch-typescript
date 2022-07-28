@@ -1,6 +1,6 @@
 import { SurveyModel } from '../models/survey'
 import { SurveyResultModel } from '../models/survey-result'
-import { AddSurveyParams } from '@/domain/usecases'
+import { AddSurveyParams, SaveSurveyResultParams } from '@/domain/usecases'
 
 export const mockFakeSurveyModel = (): SurveyModel => {
   return {
@@ -33,15 +33,27 @@ export const mockFakeSurveyModels = (): SurveyModel[] => ([{
   createdAt: new Date()
 }])
 
-export const mockSaveSurveyResultParams = (): Omit<SurveyResultModel, 'id'> => ({
+export const mockSaveSurveyResultParams = (): SaveSurveyResultParams => ({
   surveyId: 'any_id',
   accountId: 'any_account_id',
   answer: 'any_answer',
   createdAt: new Date()
 })
 
-export const mockSaveSurveyResultModel = (): SurveyResultModel => Object.assign({}, mockSaveSurveyResultParams(), {
-  id: 'any_id'
+export const mockSaveSurveyResultModel = (): SurveyResultModel => ({
+  surveyId: 'any_survey_id',
+  question: 'any_question',
+  answers: [{
+    answer: 'any_answer',
+    count: 1,
+    percent: 50
+  }, {
+    answer: 'other_answer',
+    image: 'any_image',
+    count: 10,
+    percent: 80
+  }],
+  createdAt: new Date()
 })
 
 export const mockAddSurveyParams = (): AddSurveyParams => ({

@@ -1,7 +1,13 @@
+import { SurveyAnswerModel } from './survey'
+
+type SurveyResultAnswerModel = SurveyAnswerModel & {
+  count: number
+  percent: number
+}
+
 export type SurveyResultModel = {
-  id: string
   surveyId: string
-  accountId: string
-  answer: string
+  question: string
+  answers: SurveyResultAnswerModel[]
   createdAt: Date
 }
