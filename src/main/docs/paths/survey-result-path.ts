@@ -47,5 +47,46 @@ export const surveyResultPath = {
         $ref: '#/components/serverError'
       }
     }
+  },
+
+  get: {
+    security: [
+      {
+        apiKeySchema: []
+      }
+    ],
+    tags: ['Survey'],
+    summary: 'API to search a survey result',
+    parameters: [{
+      in: 'path',
+      name: 'surveyId',
+      required: true,
+      schema: {
+        type: 'string'
+      },
+      description: 'SurveyId to save survey result'
+    }],
+
+    responses: {
+      200: {
+        description: 'Success',
+        content: {
+          'application/json': {
+            schema: {
+              $ref: '#/schemas/surveyResultSchema'
+            }
+          }
+        }
+      },
+      403: {
+        $ref: '#/components/forbidden'
+      },
+      404: {
+        $ref: '#/components/notFound'
+      },
+      500: {
+        $ref: '#/components/serverError'
+      }
+    }
   }
 }
