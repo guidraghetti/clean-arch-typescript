@@ -126,5 +126,24 @@ describe('Survey Routes', () => {
     test('should return 403 on load survey result without accessToken', async () => {
       await request(app).get('/surveys/any_id/results').expect(403)
     })
+
+    test('should return 200 on load survey result with valid accessToken', async () => {
+      const res = await surveyCollection.insertOne({
+        question: 'any_question',
+        answers: [{
+          answer: 'any_answer',
+          image: 'http://image.com/image.jpg'
+        }, {
+          answer: 'other_answer'
+        }],
+        date: new Date()
+      })
+
+      const accessToken = await makeAccessToken()
+      await request(app)
+        .get(`/surveys/${res.insertedId.toHexString()}/results`)
+        .set('x-access-token', accessToken)
+        .expect(200)
+    })
   })
 })
