@@ -1,3 +1,3 @@
 export const notFound = {
-  description: 'Route not found'
+  description: 'API não encontrada'
 }

@@ -1,24 +1,25 @@
-export const signupPath = {
+export const signUpPath = {
   post: {
-    tags: ['Signup'],
-    summary: 'API to create a user',
+    tags: ['Login'],
+    summary: 'API para criar conta de um usuário',
+    description: 'Essa rota pode ser executada por **qualquer usuário**',
     requestBody: {
+      required: true,
       content: {
         'application/json': {
           schema: {
-            $ref: '#/schemas/signupParamsSchema'
+            $ref: '#/schemas/signUpParams'
           }
         }
       }
     },
-
     responses: {
       200: {
-        description: 'Success',
+        description: 'Sucesso',
         content: {
           'application/json': {
             schema: {
-              $ref: '#/schemas/accountSchema'
+              $ref: '#/schemas/account'
             }
           }
         }

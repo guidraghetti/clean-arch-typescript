@@ -1,38 +1,37 @@
 export const surveyResultPath = {
   put: {
-    security: [
-      {
-        apiKeySchema: []
-      }
-    ],
-    tags: ['Survey'],
-    summary: 'API to add a survey result',
+    security: [{
+      apiKeyAuth: []
+    }],
+    tags: ['Enquete'],
+    summary: 'API para criar a resposta de uma enquete',
+    description: 'Essa rota só pode ser executada por **usuários autenticados**',
     parameters: [{
       in: 'path',
       name: 'surveyId',
+      description: 'ID da enquete a ser respondida',
       required: true,
       schema: {
         type: 'string'
-      },
-      description: 'SurveyId to save survey result'
+      }
     }],
     requestBody: {
+      required: true,
       content: {
         'application/json': {
           schema: {
-            $ref: '#/schemas/saveSurveyResultSchema'
+            $ref: '#/schemas/saveSurveyParams'
           }
         }
       }
     },
-
     responses: {
       200: {
-        description: 'Success',
+        description: 'Sucesso',
         content: {
           'application/json': {
             schema: {
-              $ref: '#/schemas/surveyResultSchema'
+              $ref: '#/schemas/surveyResult'
             }
           }
         }
@@ -48,32 +47,29 @@ export const surveyResultPath = {
       }
     }
   },
-
   get: {
-    security: [
-      {
-        apiKeySchema: []
-      }
-    ],
-    tags: ['Survey'],
-    summary: 'API to search a survey result',
+    security: [{
+      apiKeyAuth: []
+    }],
+    tags: ['Enquete'],
+    summary: 'API para consultar o resultado de uma enquete',
+    description: 'Essa rota só pode ser executada por **usuários autenticados**',
     parameters: [{
       in: 'path',
       name: 'surveyId',
+      description: 'ID da enquete a ser respondida',
       required: true,
       schema: {
         type: 'string'
-      },
-      description: 'SurveyId to save survey result'
+      }
     }],
-
     responses: {
       200: {
-        description: 'Success',
+        description: 'Sucesso',
         content: {
           'application/json': {
             schema: {
-              $ref: '#/schemas/surveyResultSchema'
+              $ref: '#/schemas/surveyResult'
             }
           }
         }
