@@ -1,68 +1,34 @@
-import { SurveyModel } from '../models/survey'
-import { SurveyResultModel } from '../models/survey-result'
-import { AddSurveyParams, SaveSurveyResultParams } from '@/domain/usecases'
+import { SurveyModel } from '@/domain/models'
+import { AddSurvey } from '@/domain/usecases'
 
-export const mockFakeSurveyModel = (): SurveyModel => {
+import { faker } from '@faker-js/faker'
+
+export const mockSurveyModel = (): SurveyModel => {
   return {
-    id: 'any_id',
-    question: 'any_question',
+    id: faker.datatype.uuid(),
+    question: faker.random.words(),
     answers: [{
-      answer: 'any_answer'
+      answer: faker.random.word()
     }, {
-      answer: 'other_answer',
-      image: 'any_image'
+      answer: faker.random.word(),
+      image: faker.image.imageUrl()
     }],
-    createdAt: new Date()
+    date: faker.date.recent()
   }
 }
 
-export const mockFakeSurveyModels = (): SurveyModel[] => ([{
-  id: 'any_id',
-  question: 'any_question',
-  answers: [{
-    image: 'any_image',
-    answer: 'any_answer'
-  }],
-  createdAt: new Date()
-},
-{
-  id: 'other_id',
-  question: 'other_question',
-  answers: [{
-    image: 'other_image',
-    answer: 'other_answer'
-  }],
-  createdAt: new Date()
-}])
+export const mockSurveyModels = (): SurveyModel[] => [
+  mockSurveyModel(),
+  mockSurveyModel()
+]
 
-export const mockSaveSurveyResultParams = (): SaveSurveyResultParams => ({
-  surveyId: 'any_id',
-  accountId: 'any_account_id',
-  answer: 'any_answer',
-  createdAt: new Date()
-})
-
-export const mockSaveSurveyResultModel = (): SurveyResultModel => ({
-  surveyId: 'any_id',
-  question: 'any_question',
+export const mockAddSurveyParams = (): AddSurvey.Params => ({
+  question: faker.random.words(),
   answers: [{
-    answer: 'any_answer',
-    count: 0,
-    percent: 0
+    image: faker.image.imageUrl(),
+    answer: faker.random.word()
   }, {
-    answer: 'other_answer',
-    image: 'any_image',
-    count: 0,
-    percent: 0
+    answer: faker.random.word()
   }],
-  createdAt: new Date()
-})
-
-export const mockAddSurveyParams = (): AddSurveyParams => ({
-  question: 'any_question',
-  answers: [{
-    image: 'any_image',
-    answer: 'any_answer'
-  }],
-  createdAt: new Date()
+  date: faker.date.recent()
 })
