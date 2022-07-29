@@ -1,65 +1,55 @@
-import { AddSurveyParams, SaveSurveyResult, SaveSurveyResultParams } from '@/domain/usecases'
-import { AddSurveyRepository, LoadSurveyByIdRepository, LoadSurveyRepository, LoadSurveyResultRepository, SaveSurveyResultRepository } from '@/data/protocols'
-import { mockFakeSurveyModel, mockFakeSurveyModels, mockSaveSurveyResultModel } from '../../domain/mocks'
-import { SurveyModel } from '@/domain/models/survey'
-import { SurveyResultModel } from '@/domain/models/survey-result'
+import { AddSurveyRepository, LoadSurveyByIdRepository, LoadSurveysRepository, CheckSurveyByIdRepository, LoadAnswersBySurveyRepository } from '@/data/protocols'
+import { mockSurveyModel, mockSurveyModels } from '@/tests/domain/mocks'
 
-export const mockAddSurveyRepository = (): AddSurveyRepository => {
-  class AddSurveyRepositoryStub implements AddSurveyRepository {
-    async add (survey: AddSurveyParams): Promise<void> {
-      ''
-    }
+import { faker } from '@faker-js/faker'
+
+export class AddSurveyRepositorySpy implements AddSurveyRepository {
+  params: AddSurveyRepository.Params
+
+  async add (params: AddSurveyRepository.Params): Promise<void> {
+    this.params = params
   }
-
-  return new AddSurveyRepositoryStub()
 }
 
-export const mockLoadSurveyByIdRepository = (): LoadSurveyByIdRepository => {
-  class LoadSurveyByIdRepositoryStub implements LoadSurveyByIdRepository {
-    async loadById (): Promise<any> {
-      return mockFakeSurveyModel()
-    }
-  }
+export class LoadSurveyByIdRepositorySpy implements LoadSurveyByIdRepository {
+  id: string
+  result = mockSurveyModel()
 
-  return new LoadSurveyByIdRepositoryStub()
+  async loadById (id: string): Promise<LoadSurveyByIdRepository.Result> {
+    this.id = id
+    return this.result
+  }
 }
 
-export const mockLoadSurveysRepository = (): LoadSurveyRepository => {
-  class LoadSurveyRepositoryStub implements LoadSurveyRepository {
-    async loadAll (): Promise<SurveyModel[]> {
-      return mockFakeSurveyModels()
-    }
-  }
+export class LoadAnswersBySurveyRepositorySpy implements LoadAnswersBySurveyRepository {
+  id: string
+  result = [
+    faker.random.word(),
+    faker.random.word()
+  ]
 
-  return new LoadSurveyRepositoryStub()
+  async loadAnswers (id: string): Promise<LoadAnswersBySurveyRepository.Result> {
+    this.id = id
+    return this.result
+  }
 }
 
-export const mockSaveSurveyResult = (): SaveSurveyResult => {
-  class SaveSurveyRepositoryStub implements SaveSurveyResult {
-    async save (data: SaveSurveyResultParams): Promise<SurveyResultModel> {
-      return mockSaveSurveyResultModel()
-    }
-  }
+export class CheckSurveyByIdRepositorySpy implements CheckSurveyByIdRepository {
+  id: string
+  result = true
 
-  return new SaveSurveyRepositoryStub()
+  async checkById (id: string): Promise<CheckSurveyByIdRepository.Result> {
+    this.id = id
+    return this.result
+  }
 }
 
-export const mockSaveSurveyResultRepository = (): SaveSurveyResultRepository => {
-  class SaveSurveyResultRepositoryStub implements SaveSurveyResultRepository {
-    async save (data: SaveSurveyResultParams): Promise<void> {
-      ''
-    }
+export class LoadSurveysRepositorySpy implements LoadSurveysRepository {
+  accountId: string
+  result = mockSurveyModels()
+
+  async loadAll (accountId: string): Promise<LoadSurveysRepository.Result> {
+    this.accountId = accountId
+    return this.result
   }
-
-  return new SaveSurveyResultRepositoryStub()
-}
-
-export const mockLoadSurveyResultRepository = (): LoadSurveyResultRepository => {
-  class LoadSurveyResultRepositoryStub {
-    async loadBySurveyId (surveyId: string): Promise<SurveyResultModel> {
-      return mockSaveSurveyResultModel()
-    }
-  }
-
-  return new LoadSurveyResultRepositoryStub()
 }

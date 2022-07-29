@@ -1,7 +1,0 @@
-export * from './login/login/login-controller'
-export * from './login/signup/signup-controller'
-export * from './survey/add-survey/add-survey-controller'
-export * from './survey/load-survey/load-surveys-controller'
-export * from './survey/survey-result/save-survey-result-controller'
-export * from './main/main-controller'
-export * from './survey/load-survey/load-survey-result-controller'

@@ -10,7 +10,7 @@ This API is a first test with Clean Arch + Typescript
 
 ## Run development enviroment
 
-Make sure you have [Node.js](https://nodejs.org/en/), [Nestjs Cli](https://docs.nestjs.com/), [Docker](https://docs.docker.com/desktop/) and [Docker Compose(>=1.27.4)](https://docs.docker.com/compose/install/) installed. 
+Make sure you have [Node.js](https://nodejs.org/en/), [Docker](https://docs.docker.com/desktop/) and [Docker Compose(>=1.27.4)](https://docs.docker.com/compose/install/) installed. 
 
 - Create .env same .env.example content
 
