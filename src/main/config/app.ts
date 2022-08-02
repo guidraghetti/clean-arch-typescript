@@ -6,14 +6,17 @@ import { setupApolloServer } from '@/main/graphql/apollo'
 
 import express, { Express } from 'express'
 
-export const setupApp = async (): Promise<Express> => {
-  const app = express()
-  setupStaticFiles(app)
-  setupSwagger(app)
-  setupMiddlewares(app)
-  setupRoutes(app)
+const runApolloServer = async (app: Express): Promise<void> => {
   const server = setupApolloServer()
   await server.start()
   server.applyMiddleware({ app })
-  return app
 }
+
+const app: Express = express()
+setupStaticFiles(app)
+setupSwagger(app)
+setupMiddlewares(app)
+setupRoutes(app)
+runApolloServer(app).then(() => console.log('Apollo is running')).catch(console.error)
+
+export { app }
