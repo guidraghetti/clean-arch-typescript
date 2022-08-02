@@ -28,8 +28,6 @@ provider:
 package:
   excludeDevDependencies: true
   individually: true
-  patterns: 
-    - src/**
 
 functions:
   app:
@@ -49,5 +47,6 @@ plugins:
 
 custom:
   webpack:
-      webpackConfig: './webpack.config.js'
-      includeModules: true
+    webpackConfig: './webpack.config.js'
+    includeModules: true
+    packager: yarn
