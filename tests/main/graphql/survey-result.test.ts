@@ -19,7 +19,6 @@ const mockAccessToken = async (): Promise<string> => {
     role: 'admin'
   })
   const id = res.insertedId.toHexString()
-  console.log(id)
   const accessToken = sign({ id }, JWT_SECRET)
   await accountCollection.updateOne({
     _id: res.insertedId

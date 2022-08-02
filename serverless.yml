@@ -1,0 +1,53 @@
+service: clean-arch-test
+
+frameworkVersion: '3'
+useDotenv: true
+configValidationMode: error 
+
+provider:
+  httpApi:
+    cors: true
+  name: aws
+  runtime: nodejs14.x
+  deploymentBucket:
+    blockPublicAccess: true
+    skipPolicySetup: false
+    name: clean-arch-test
+  deploymentPrefix: ${opt:stage, self:provider.stage, 'dev'}-clean-arch-test
+  apiName: ${opt:stage, self:provider.stage, 'dev'}-clean-arch-test
+  memorySize: 512
+  timeout: 30
+  logRetentionInDays: 1
+  apiGateway:
+    shouldStartNameWithService: true
+  environment:
+    LAMBDA: true
+    MONGO_URL: ${env:MONGO_URL}
+    MONGO_DB: ${env:MONGO_DB}
+
+package:
+  excludeDevDependencies: true
+  individually: true
+  patterns: 
+    - src/**
+
+functions:
+  app:
+    name: ${opt:stage, self:provider.stage, 'dev'}-clean-arch-test
+    handler: src/main/server.handler
+    events:
+      - httpApi:
+          path: /
+          method: '*'
+      - httpApi:
+          path: /{proxy+}
+          method: '*'
+
+plugins:
+  - serverless-offline
+  - serverless-webpack
+
+custom:
+  webpack:
+      webpackConfig: './webpack.config.js'
+      includeModules: true

@@ -77,7 +77,6 @@ describe('AccountMongoRepository', () => {
       const accessToken = faker.datatype.uuid()
       await sut.updateAccessToken(fakeAccount._id, accessToken)
       const account = await accountCollection.findOne({ _id: fakeAccount._id })
-      console.log(account)
       expect(account).toBeTruthy()
       expect(account.accessToken).toBe(accessToken)
     })
