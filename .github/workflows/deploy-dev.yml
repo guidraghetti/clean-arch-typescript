@@ -5,7 +5,6 @@ on:
     branches: [dev]
 jobs:
   deploy:
-    needs: test
     name: deploy
     runs-on: ubuntu-latest
     strategy:
@@ -17,7 +16,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm i
+      - run: yarn i
       - name: serverless deploy
         uses: serverless/github-action@master
         with:
