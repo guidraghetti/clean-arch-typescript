@@ -23,5 +23,5 @@ jobs:
           args: deploy --stage dev
         env:
           LAMBDA: true
-          MONGO_URL: ${env:MONGO_URL}
-          MONGO_DB: ${env:MONGO_DB}
+          MONGO_URL: ${{ secrets.MONGO_URL }}
+          MONGO_DB: ${{ secrets.MONGO_DB }}
