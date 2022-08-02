@@ -20,7 +20,6 @@ export class AccountMongoRepository implements AddAccountRepository, LoadAccount
         password: 1
       }
     })
-    console.log(account)
     return account && MongoHelper.map(account)
   }
 
