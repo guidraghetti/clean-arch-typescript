@@ -6,6 +6,6 @@ import { MONGO_URL, MONGO_DB } from '@/main/config/constants'
 const handleApp = serverless(app)
 
 export const handler = async (event: Object, context: Object): Promise<Object> => {
-  MongoHelper.connect(`${MONGO_URL}/${MONGO_DB}`).then(() => console.log('Mongo connected')).catch(console.error)
+  await MongoHelper.connect(`${MONGO_URL}/${MONGO_DB}`)
   return handleApp(event, context)
 }
