@@ -32,7 +32,7 @@ package:
 functions:
   app:
     name: ${opt:stage, self:provider.stage, 'dev'}-clean-arch-test
-    handler: src/main/server.handler
+    handler: src/main/lambda.handler
     events:
       - httpApi:
           path: /

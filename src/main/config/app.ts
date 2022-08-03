@@ -13,6 +13,7 @@ const runApolloServer = async (app: Express): Promise<void> => {
 }
 
 const app: Express = express()
+
 setupStaticFiles(app)
 setupSwagger(app)
 setupMiddlewares(app)
